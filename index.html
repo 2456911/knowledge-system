@@ -164,28 +164,6 @@ body {
   font-weight: 600;
 }
 
-/* ===== SUB NAV (3rd level) ===== */
-.ni-sub {
-  padding: 4px 16px 4px 48px;
-  font-size: 12.5px;
-  color: var(--t3);
-  cursor: pointer;
-  border-left: 2px solid transparent;
-  transition: all .15s;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  border-radius: 0 6px 6px 0;
-  margin: 0px 8px 0px 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-.ni-sub:hover { color: var(--a); background: var(--ag); }
-.ni-sub.ac {
-  color: var(--a);
-  background: var(--ag);
-  border-left-color: var(--a);
-  font-weight: 600;
-}
 
 /* ===== MAIN CONTENT ===== */
 #mn { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
@@ -363,22 +341,75 @@ hr { border: none; border-top: 1px solid var(--bd); margin: 28px 0; }
 
 /* ===== CARD GRIDS ===== */
 .cg { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
-.cd {
-  background: #ffffff;
+
+/* ===== SUB-LIST (vertical, clean) ===== */
+.sub-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 16px 0;
   border: 1px solid var(--bd);
   border-radius: var(--radius);
-  padding: 18px;
-  cursor: pointer;
-  transition: all .2s;
+  overflow: hidden;
   box-shadow: var(--shadow-sm);
 }
-.cd:hover {
-  border-color: var(--a);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
+.sub-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  transition: background .15s;
 }
-.ct { font-weight: 700; color: var(--t); margin-bottom: 6px; font-size: 14px; }
-.cx { font-size: 12.5px; color: var(--t3); line-height: 1.6; }
+.sub-item:last-child { border-bottom: none; }
+.sub-item:hover { background: var(--ag); }
+.sub-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--t);
+  outline: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin: -2px -6px;
+  transition: border-color .15s, background .15s;
+  min-height: 1.6em;
+  line-height: 1.6;
+}
+.sub-title:focus {
+  border-color: var(--a);
+  background: rgba(255,255,255,0.9);
+}
+.sub-jump {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border: 1.5px solid var(--bd);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all .15s;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sub-jump:hover {
+  border-color: var(--a);
+  background: var(--ag);
+}
+.sub-jump::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 5px solid var(--t3);
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  transition: border-color .15s;
+}
+.sub-jump:hover::after {
+  border-left-color: var(--a);
+}
 
 /* ===== PILL CARDS ===== */
 .pl {
@@ -427,7 +458,6 @@ strong { color: var(--t); }
   }
   #sd.open { left: 0; box-shadow: var(--shadow-lg); }
   #ct { padding: 24px 20px; }
-  .cg { grid-template-columns: 1fr; }
   #sr { left: 0; width: 280px; }
 }
 </style>
@@ -452,7 +482,7 @@ strong { color: var(--t); }
 var D = {
   home: {
     title: "总索引", section: "总览",
-    html: '<h1>个人认知体系 v1.0</h1><div class="pm"><span class="tg">决策操作系统</span><span class="tg">芒格</span><span class="tg">纳瓦尔</span><span class="tg">达利欧</span></div><bq>这不是"我知道什么"的清单，而是"遇到问题时我该怎么想、怎么判断、怎么行动"的决策操作系统。参考芒格的跨学科思维模型栅格 + 达利欧的原则层级 + 纳瓦尔的极简三元命题（健康·财富·幸福）。</bq><h2>体系全景</h2><pre>┌──────────────────────────────────────────┐\n│  第一层：底层操作系统                      │\n│  → 三观 · 元认知 · 实用主义               │\n├──────────────────────────────────────────┤\n│  第二层：思维模型栅格（7大学科）            │\n│  → 心理学·数学概率·经济学·生物学           │\n│    会计财务·哲学逻辑·历史社会              │\n├──────────────────────────────────────────┤\n│  第三层：决策原则（条件→行动）              │\n│  → 健康·识人·投资·关系·自我管理            │\n├──────────────────────────────────────────┤\n│  第四层：复盘迭代（日/周/季/年）            │\n└──────────────────────────────────────────┘</pre><h2>使用方式</h2><pre>1. 暂停觉察 → 情绪主导还是理性主导？\n2. 调用模型 → 这个问题涉及哪些学科？\n3. 应用原则 → 匹配到哪个决策场景？\n4. 复盘更新 → 结果符合预期吗？</pre><h2>核心口诀</h2><div class="hb gd" style="font-size:16px;font-weight:700;text-align:center;letter-spacing:1px">遇事先觉察，看人看模式，决策看长期，不懂不参与，失控先暂停，健康是第一。</div><h2>快速导航</h2><div class="cg"><div class="cd" onclick="G(\'wv\')"><div class="ct">三观：底层信念系统</div><div class="cx">所有思考的总地图</div></div><div class="cd" onclick="G(\'ht\')"><div class="ct">健康决策原则</div><div class="cx">运动·睡眠·饮食·精力管理</div></div><div class="cd" onclick="G(\'iv\')"><div class="ct">投资决策原则</div><div class="cx">四问+三支柱+双检核</div></div><div class="cd" onclick="G(\'pp\')"><div class="ct">识人决策原则</div><div class="cx">人=终身上市公司，6维打分</div></div><div class="cd" onclick="G(\'rv\')"><div class="ct">复盘迭代机制</div><div class="cx">日/周/季/年四级迭代</div></div></div>'
+    html: '<h1>个人认知体系 v1.0</h1><div class="pm"><span class="tg">决策操作系统</span><span class="tg">芒格</span><span class="tg">纳瓦尔</span><span class="tg">达利欧</span></div><bq>这不是"我知道什么"的清单，而是"遇到问题时我该怎么想、怎么判断、怎么行动"的决策操作系统。参考芒格的跨学科思维模型栅格 + 达利欧的原则层级 + 纳瓦尔的极简三元命题（健康·财富·幸福）。</bq><h2>体系全景</h2><pre>┌──────────────────────────────────────────┐\n│  第一层：底层操作系统                      │\n│  → 三观 · 元认知 · 实用主义               │\n├──────────────────────────────────────────┤\n│  第二层：思维模型栅格（7大学科）            │\n│  → 心理学·数学概率·经济学·生物学           │\n│    会计财务·哲学逻辑·历史社会              │\n├──────────────────────────────────────────┤\n│  第三层：决策原则（条件→行动）              │\n│  → 健康·识人·投资·关系·自我管理            │\n├──────────────────────────────────────────┤\n│  第四层：复盘迭代（日/周/季/年）            │\n└──────────────────────────────────────────┘</pre><h2>使用方式</h2><pre>1. 暂停觉察 → 情绪主导还是理性主导？\n2. 调用模型 → 这个问题涉及哪些学科？\n3. 应用原则 → 匹配到哪个决策场景？\n4. 复盘更新 → 结果符合预期吗？</pre><h2>核心口诀</h2><div class="hb gd" style="font-size:16px;font-weight:700;text-align:center;letter-spacing:1px">遇事先觉察，看人看模式，决策看长期，不懂不参与，失控先暂停，健康是第一。</div>'
   },
 
   wv: {
@@ -791,14 +821,6 @@ function buildNav() {
       var d = D[id];
       if (!d) return;
       html += '<div class="ni" data-id="' + id + '" onclick="G(\'' + id + '\',this)">' + d.title + '</div>';
-      // Sub-items (3rd level)
-      if (d.subs) {
-        d.subs.forEach(function(sid) {
-          var sd = D[sid];
-          if (!sd) return;
-          html += '<div class="ni-sub" data-id="' + sid + '" data-parent="' + id + '" onclick="G(\'' + sid + '\',this)" style="display:none">' + sd.title + '</div>';
-        });
-      }
     });
     html += '</div>';
   });
@@ -809,19 +831,6 @@ function buildNav() {
 function toggleSec(el) {
   var ns = el.parentElement;
   ns.classList.toggle("c");
-}
-
-// ===== SHOW SUBS for active parent =====
-function showSubs(parentId) {
-  // Hide all subs first
-  document.querySelectorAll(".ni-sub").forEach(function(el) { el.style.display = "none"; });
-  if (!parentId) return;
-  var d = D[parentId];
-  if (!d || !d.subs) return;
-  d.subs.forEach(function(sid) {
-    var el = document.querySelector('.ni-sub[data-id="' + sid + '"]');
-    if (el) el.style.display = "";
-  });
 }
 
 // ===== GO TO PAGE =====
@@ -849,16 +858,17 @@ function G(id, el) {
   var ct = document.getElementById("ct");
   ct.scrollTop = 0;
 
-  // If page has subs, render as index page with clickable section cards
+  // If page has subs, render as vertical list with editable titles + jump buttons
   var html = d.html;
   if (d.subs && d.subs.length > 0) {
-    html += '<h2>子章节</h2><div class="cg">';
+    html += '<h2>子章节</h2><div class="sub-list">';
     d.subs.forEach(function(sid) {
       var sd = D[sid];
       if (!sd) return;
-      // Extract first text snippet for description
-      var text = sd.html.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim().substring(0, 60);
-      html += '<div class="cd" onclick="G(\'' + sid + '\')"><div class="ct">' + sd.title + '</div><div class="cx">' + text + '…</div></div>';
+      html += '<div class="sub-item">';
+      html += '<span class="sub-title" contenteditable="true" data-id="' + sid + '">' + sd.title + '</span>';
+      html += '<div class="sub-jump" onclick="G(\'' + sid + '\')" title="打开详情"></div>';
+      html += '</div>';
     });
     html += '</div>';
   }
@@ -866,20 +876,12 @@ function G(id, el) {
   ct.innerHTML = '<div class="pg ac">' + html + '</div>';
 
   // Update sidebar active state
-  document.querySelectorAll(".ni,.ni-sub").forEach(function(n) { n.classList.remove("ac"); });
+  document.querySelectorAll(".ni").forEach(function(n) { n.classList.remove("ac"); });
   if (el) {
     el.classList.add("ac");
   } else {
     var navEl = document.querySelector('[data-id="' + id + '"]');
     if (navEl) navEl.classList.add("ac");
-  }
-
-  // Show sub-nav items for the parent
-  showSubs(parentId);
-
-  // If this page has subs, show them too (when viewing the parent)
-  if (!parentId && d.subs) {
-    showSubs(id);
   }
 
   curId = id;
