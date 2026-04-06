@@ -87,6 +87,39 @@ body {
   box-shadow: 0 0 0 3px var(--ag);
 }
 #sb::placeholder { color: var(--t3); }
+
+/* ===== SEARCH RESULTS ===== */
+#sr {
+  display: none;
+  position: absolute;
+  left: 290px;
+  top: 0;
+  width: 320px;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid var(--bd);
+  border-radius: 0 0 var(--radius) 0;
+  box-shadow: var(--shadow-lg);
+  z-index: 200;
+  padding: 8px 0;
+}
+#sr.show { display: block; }
+.sri {
+  padding: 10px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  transition: background .15s;
+}
+.sri:last-child { border-bottom: none; }
+.sri:hover { background: var(--ag); }
+.sri-t { font-size: 13px; font-weight: 600; color: var(--t); margin-bottom: 2px; }
+.sri-p { font-size: 11px; color: var(--t3); font-family: -apple-system, sans-serif; }
+.sri-c { font-size: 12px; color: var(--t2); margin-top: 3px; line-height: 1.5;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sri-c mark { background: rgba(192,113,58,0.2); color: var(--t); padding: 0 1px; border-radius: 2px; }
+
+/* ===== NAV ===== */
 #nv { flex: 1; overflow-y: auto; padding: 8px 0 20px; }
 #nv::-webkit-scrollbar { width: 4px; }
 #nv::-webkit-scrollbar-thumb { background: var(--bd); border-radius: 4px; }
@@ -109,7 +142,7 @@ body {
 .nh:hover { color: var(--a); }
 .nh .ar { font-size: 9px; transition: transform .2s; }
 .ns.c .ar { transform: rotate(-90deg); }
-.ns.c .ni { display: none; }
+.ns.c > .ni { display: none; }
 .ni {
   padding: 6px 16px 6px 30px;
   font-size: 13.5px;
@@ -125,6 +158,29 @@ body {
 }
 .ni:hover { color: var(--a); background: var(--ag); }
 .ni.ac {
+  color: var(--a);
+  background: var(--ag);
+  border-left-color: var(--a);
+  font-weight: 600;
+}
+
+/* ===== SUB NAV (3rd level) ===== */
+.ni-sub {
+  padding: 4px 16px 4px 48px;
+  font-size: 12.5px;
+  color: var(--t3);
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: all .15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 0 6px 6px 0;
+  margin: 0px 8px 0px 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.ni-sub:hover { color: var(--a); background: var(--ag); }
+.ni-sub.ac {
   color: var(--a);
   background: var(--ag);
   border-left-color: var(--a);
@@ -203,6 +259,38 @@ h2::after {
   background: var(--a);
   border-radius: 1px;
 }
+
+/* ===== CLICKABLE SUB-SECTION HEADERS ===== */
+.sec-head {
+  cursor: pointer;
+  transition: color .15s;
+}
+.sec-head:hover { color: var(--a); }
+.sec-head .arr {
+  display: inline-block;
+  font-size: 12px;
+  margin-left: 6px;
+  color: var(--t3);
+  transition: transform .2s, color .15s;
+  font-family: -apple-system, sans-serif;
+}
+.sec-head:hover .arr { color: var(--a); }
+
+/* ===== BACK LINK ===== */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--a);
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition: opacity .15s;
+  padding: 4px 0;
+}
+.back-link:hover { opacity: 0.7; }
+
 h3 {
   font-size: 16px;
   font-weight: 700;
@@ -340,486 +428,535 @@ strong { color: var(--t); }
   #sd.open { left: 0; box-shadow: var(--shadow-lg); }
   #ct { padding: 24px 20px; }
   .cg { grid-template-columns: 1fr; }
+  #sr { left: 0; width: 280px; }
 }
 </style>
 </head>
 <body>
 <div id="sd">
-  <div class="hd"><h2>🧠 认知体系</h2><small>Decision OS v1.0</small></div>
-  <input id="sb" type="text" placeholder="搜索笔记…" oninput="S(this.value)">
-  <nav id="nv"><div class="ns"><div class="nh" onclick="T(this)"><span class="ar">▾</span>总览</div><div class="ni">
-<div class="ni ac" onclick="G('home',this)">🗺️ 总索引</div>
-</div></div>
-<div class="ns"><div class="nh" onclick="T(this)"><span class="ar">▾</span>底层操作系统</div><div class="ni">
-<div class="ni" onclick="G('wv',this)">🌍 三观</div>
-<div class="ni" onclick="G('mc',this)">🔬 元认知</div>
-<div class="ni" onclick="G('pr',this)">⚖️ 实用主义</div>
-<div class="ni" onclick="G('sf',this)">🪞 与自己周旋</div>
-</div></div>
-<div class="ns"><div class="nh" onclick="T(this)"><span class="ar">▾</span>思维模型栅格</div><div class="ni">
-<div class="ni" onclick="G('ps',this)">🧠 心理学</div>
-<div class="ni" onclick="G('ma',this)">📊 数学概率</div>
-<div class="ni" onclick="G('ec',this)">🏭 经济学</div>
-<div class="ni" onclick="G('bi',this)">🧬 生物学</div>
-<div class="ni" onclick="G('acc',this)">📋 会计学</div>
-<div class="ni" onclick="G('ph',this)">💡 哲学逻辑</div>
-<div class="ni" onclick="G('hi',this)">📜 历史社会</div>
-</div></div>
-<div class="ns"><div class="nh" onclick="T(this)"><span class="ar">▾</span>决策原则</div><div class="ni">
-<div class="ni" onclick="G('ht',this)">💪 健康</div>
-<div class="ni" onclick="G('pp',this)">👤 识人</div>
-<div class="ni" onclick="G('iv',this)">📈 投资</div>
-<div class="ni" onclick="G('rl',this)">❤️ 关系幸福</div>
-<div class="ni" onclick="G('sm',this)">⏰ 自我管理</div>
-</div></div>
-<div class="ns"><div class="nh" onclick="T(this)"><span class="ar">▾</span>复盘迭代</div><div class="ni">
-<div class="ni" onclick="G('rv',this)">🔄 迭代机制</div>
-<div class="ni" onclick="G('tp',this)">📝 每日模板</div>
-</div></div>
-</nav>
+  <div class="hd"><h2>认知体系</h2><small>Decision OS v1.0</small></div>
+  <input id="sb" type="text" placeholder="搜索全部内容…" oninput="S(this.value)" onfocus="S(this.value)">
+  <nav id="nv"></nav>
 </div>
+<div id="sr"></div>
 <div id="mn">
-  <div id="tp">🗺️ 总索引</div>
-  <div id="ct"><div class="pg ac" id="p-home">
-<h1>个人认知体系 v1.0</h1>
-<div class="pm"><span class="tg">决策操作系统</span><span class="tg">芒格</span><span class="tg">纳瓦尔</span><span class="tg">达利欧</span></div>
-<bq>这不是"我知道什么"的清单，而是"遇到问题时我该怎么想、怎么判断、怎么行动"的决策操作系统。参考芒格的跨学科思维模型栅格 + 达利欧的原则层级 + 纳瓦尔的极简三元命题（健康·财富·幸福）。</bq>
-<h2>体系全景</h2>
-<pre>┌──────────────────────────────────────────┐
-│  第一层：底层操作系统                      │
-│  → 三观 · 元认知 · 实用主义               │
-├──────────────────────────────────────────┤
-│  第二层：思维模型栅格（7大学科）            │
-│  → 心理学·数学概率·经济学·生物学           │
-│    会计财务·哲学逻辑·历史社会              │
-├──────────────────────────────────────────┤
-│  第三层：决策原则（条件→行动）              │
-│  → 健康·识人·投资·关系·自我管理            │
-├──────────────────────────────────────────┤
-│  第四层：复盘迭代（日/周/季/年）            │
-└──────────────────────────────────────────┘</pre>
-<h2>使用方式</h2>
-<pre>1. 暂停觉察 → 情绪主导还是理性主导？
-2. 调用模型 → 这个问题涉及哪些学科？
-3. 应用原则 → 匹配到哪个决策场景？
-4. 复盘更新 → 结果符合预期吗？</pre>
-<h2>核心口诀</h2>
-<div class="hb gd" style="font-size:16px;font-weight:700;text-align:center;letter-spacing:1px">遇事先觉察，看人看模式，决策看长期，不懂不参与，失控先暂停，健康是第一。</div>
-<h2>快速导航</h2>
-<div class="cg">
-<div class="cd" onclick="G('wv')"><div class="ct">🌍 三观：底层信念系统</div><div class="cx">所有思考的总地图</div></div>
-<div class="cd" onclick="G('ht')"><div class="ct">💪 健康决策原则</div><div class="cx">运动·睡眠·饮食·精力管理</div></div>
-<div class="cd" onclick="G('iv')"><div class="ct">📈 投资决策原则</div><div class="cx">四问+三支柱+双检核</div></div>
-<div class="cd" onclick="G('pp')"><div class="ct">👤 识人决策原则</div><div class="cx">人=终身上市公司，6维打分</div></div>
-<div class="cd" onclick="G('rv')"><div class="ct">🔄 复盘迭代机制</div><div class="cx">日/周/季/年四级迭代</div></div>
-</div>
-</div>
-<div class="pg" id="p-wv">
-<h1>三观：底层信念系统</h1>
-<div class="pm"><span class="tg">世界观</span><span class="tg">人生观</span><span class="tg">价值观</span></div>
-<bq>三观是"底层操作系统" — 所有思考、判断、行动的总源头。回答：世界是什么样的？我该怎么活？什么选择更值得？</bq>
-<h2>世界观</h2>
-<ul><li>底层逻辑是<b>价值交换</b> — 任何关系、组织、市场都是</li>
-<li>世界是<b>演化系统</b> — 永远在变化，适者生存</li>
-<li>规律不以人的意志为转移 — 尊重事实</li></ul>
-<div class="hb"><b>应用</b>：先问"这背后的价值交换是什么？""演化方向是什么？"</div>
-<h2>人生观</h2>
-<table><tr><th>类比</th><th>含义</th></tr>
-<tr><td>行为</td><td>日常经营</td></tr><tr><td>情绪</td><td>短期股价波动</td></tr><tr><td>品格/底层模式</td><td>商业模式 + 护城河</td></tr><tr><td>未来</td><td>长期价值</td></tr></table>
-<div class="hb"><b>每天问自己</b>："今天的投入是在积累资产，还是在消耗资产？"</div>
-<h2>价值观</h2>
-<ul><li><b>底线绝对不动</b>：不违法、不害人、不违心、不损人利己</li>
-<li><b>方法极致灵活</b>：底线之内，穷尽一切办法找最优解</li>
-<li><b>算长期全局大账</b></li>
-<li><b>道德不是束缚</b>，而是长期收益最高、风险最低的策略</li></ul>
-<h2>三观与投资同构</h2>
-<table><tr><th>三观</th><th>投资类比</th><th>核心问题</th></tr>
-<tr><td>世界观</td><td>对市场的底层认知</td><td>世界有没有不变的底层规则？</td></tr>
-<tr><td>人生观</td><td>公司的使命与长期战略</td><td>我的人生终极目标是什么？</td></tr>
-<tr><td>价值观</td><td>核心经营准则与风控红线</td><td>什么钱不能赚？什么底线不能破？</td></tr></table>
-</div>
-<div class="pg" id="p-mc">
-<h1>元认知训练</h1>
-<div class="pm"><span class="tg">元认知</span><span class="tg">思考框架</span></div>
-<bq>元认知 = 观察自己的思考 + 校准自己的思考 + 不让情绪/本能替你做决定</bq>
-<h2>四个可训练模块</h2>
-<h3>一、第一性原理思考</h3>
-<pre>事实层：真正发生了什么？有数据/证据吗？
-逻辑层：推导过程对不对？有没有跳跃？
-价值层：对我的核心资产有利还是有害？</pre>
-<h3>二、人生CEO视角</h3>
-<table><tr><th>资产</th><th>负债</th></tr>
-<tr><td>健康、能力、信用、投资、正向关系</td><td>熬夜、情绪内耗、无效社交、高风险行为</td></tr></table>
-<h3>三、内在锚定</h3>
-<p>在意别人看法时问：①这评价能决定我的长期价值吗？②我在做正确的事还是让他满意的事？③5年后回头看呢？</p>
-<div class="hb gn"><b>训练结果</b>：别人夸你不飘，别人否定你不崩</div>
-<h3>四、思考前置校验</h3>
-<ol><li>我在思考什么？</li><li>用什么方式思考？（归纳？演绎？情绪？）</li><li>证据/前提可靠吗？</li><li>有没有偏见/盲区？</li></ol>
-<h2>每日10分钟训练</h2>
-<div class="cg"><div class="pl"><div class="pn">☀️</div><div class="pt">早上3分钟</div><div class="px">默读5条价值公理：只做长期正向价值创造/我是人生CEO/自由=不被绑架/财富=睡觉时赚钱/健康是第一核心资产</div></div>
-<div class="pl"><div class="pn">🔄</div><div class="pt">白天3次暂停</div><div class="px">纠结时：①情绪主导还是理性？②增加资产还是消耗？③追求真实价值还是迎合别人？</div></div>
-<div class="pl"><div class="pn">🌙</div><div class="pt">晚上4分钟</div><div class="px">①今天哪一次被带跑了？②真实动机是什么？③下次用哪条公理可以拦住？</div></div></div>
-</div>
-<div class="pg" id="p-pr">
-<h1>高明的实用主义</h1>
-<div class="pm"><span class="tg">道德</span><span class="tg">长期主义</span></div>
-<bq>底线不动，方法灵活。道德是长期收益最高、风险最低的处事策略。</bq>
-<h2>四条不可妥协的红线</h2>
-<div class="hb gd" style="font-size:16px;font-weight:700;text-align:center;letter-spacing:2px">不违法 · 不害人 · 不违心 · 不损人利己</div>
-<h2>四条落地规则</h2>
-<ol><li><b>先划底线，再想办法</b> — 排除突破底线的方案，再穷尽正当方案</li>
-<li><b>算大账不算小账</b> — 3年、5年后会带来什么？会不会埋雷？</li>
-<li><b>优先找共赢方案</b> — 利他是长期利己的最可靠路径</li>
-<li><b>守得住底线，放得开手脚</b></li></ol>
-<h2>决策流程</h2>
-<pre>1. 突破红线了吗？ → 突破了 → 不做
-2. 长期全局最优方案是什么？
-3. 有没有共赢方案？ → 有→优先 → 没有→选伤害最小的
-4. 做完之后我睡得着吗？ → 睡不着→重新考虑</pre>
-</div>
-<div class="pg" id="p-sf">
-<h1>与自己周旋</h1>
-<div class="pm"><span class="tg">自我接纳</span><span class="tg">宁做我</span></div>
-<bq>"我与我周旋久，宁做我" — 做我，从来不是做那个剔除了所有弱点的完美自我，而是做那个完整的、真实的、哪怕带着不堪与阴影，依然坦然活着的本我。</bq>
-<h2>5步周旋方法</h2>
-<div class="cg">
-<div class="pl"><div class="pn">01</div><div class="pt">停止敌我对抗</div><div class="px">❌"我怎么这么嫉妒" → ✅"我此刻产生了嫉妒的情绪"。用第三人称称呼自己。</div></div>
-<div class="pl"><div class="pn">02</div><div class="pt">听懂情绪潜台词</div><div class="px">①最强烈的情绪？②被什么触发？③在告诉我什么核心需求？</div></div>
-<div class="pl"><div class="pn">03</div><div class="pt">和平共处公约</div><div class="px">接纳情绪，约束行为。嫉妒允许产生但不诋毁别人。</div></div>
-<div class="pl"><div class="pn">04</div><div class="pt">从纠错转向建设</div><div class="px">停止缺点日记，开启闪光记录。种满鲜花，杂草自然没有空间。</div></div>
-<div class="pl"><div class="pn">05</div><div class="pt">周旋是常态</div><div class="px">一辈子的事，没有一劳永逸的终点。今天和解明天可能又拉扯，这太正常了。</div></div>
-</div>
-<h2>"宁做我"的三层含义</h2>
-<ol><li><b>接纳完整的我</b> — 能慷慨付出的是你，会怕被消耗的也是你</li>
-<li><b>不改掉所有缺点也配做自己</b> — 周旋的目的是和平共处，不是打赢</li>
-<li><b>忠于内心，不迎合外界</b></li></ol>
-</div>
-<div class="pg" id="p-ps">
-<h1>心理学思维模型</h1>
-<div class="pm"><span class="tg">心理学</span><span class="tg">芒格</span></div>
-<bq>核心问题：<b>人为什么会这么想、这么做？包括我自己。</b>这是7大学科栅格里最常调用的学科。</bq>
-<h2>核心认知偏差清单</h2>
-<table><tr><th>偏差</th><th>本质</th><th>如何防止</th></tr>
-<tr><td><b>确认偏误</b></td><td>只看支持自己的证据</td><td>主动寻找反面证据</td></tr>
-<tr><td><b>损失厌恶</b></td><td>亏100块的痛苦 > 赚100块的快乐</td><td>关注期望值</td></tr>
-<tr><td><b>锚定效应</b></td><td>第一个数字锚定后续判断</td><td>先独立判断</td></tr>
-<tr><td><b>从众效应</b></td><td>别人怎么做我也怎么做</td><td>问"为什么这么做"</td></tr>
-<tr><td><b>达克效应</b></td><td>能力越低越自信</td><td>承认无知</td></tr></table>
-<h2>需求层次</h2>
-<pre>自我实现（成长性·灵魂上限）
-    ↑
-  尊重需求（幸福度决定因素）
-    ↑
-归属与爱（深浅分界线）
-    ↑
- 安全需求（关系稳定基石）
-    ↑
-  生理需求（最低存续门槛）</pre>
-<h2>爱的艺术</h2>
-<table><tr><th>不成熟的爱</th><th>成熟的爱</th></tr>
-<tr><td>"我爱你，因为我需要你"（索取型）</td><td>"我需要你，因为我爱你"（给予型）</td></tr></table>
-<div class="hb">享乐适应：任何外部事件带来的幸福感都会在半年内回归基线 → 追求"幸福能力"而非"幸福事件"。</div>
-</div>
-<div class="pg" id="p-ma">
-<h1>数学与概率</h1>
-<div class="pm"><span class="tg">复利</span><span class="tg">期望值</span><span class="tg">安全边际</span></div>
-<bq>核心问题：<b>这件事发生的真实概率是多少？长期期望值是正的还是负的？</b></bq>
-<h2>核心模型</h2>
-<h3>复利</h3>
-<ul><li>资金复利：长期稳定高ROE > 短期暴利</li>
-<li>能力复利：每天进步1%，1年后是37倍</li>
-<li>健康复利：每天运动30分钟，复利30年是质的飞跃</li></ul>
-<h3>期望值 = 概率 × 回报</h3>
-<div class="hb">不要问"会成功吗"，而是问："<b>成功概率×成功收益 - 失败概率×失败损失 = 值得做吗？</b>"</div>
-<h3>安全边际</h3>
-<ul><li>好公司 + 低估值才是好投资</li>
-<li>不要满仓，不要借钱，保留弹药</li></ul>
-<h3>均值回归</h3>
-<ul><li>任何极端状态都会回归平均值</li>
-<li>市场极度悲观时往往是买入时机</li></ul>
-</div>
-<div class="pg" id="p-ec">
-<h1>微观经济学与商业分析</h1>
-<div class="pm"><span class="tg">护城河</span><span class="tg">商业模式</span></div>
-<bq>核心问题：<b>这门生意怎么赚钱？护城河在哪？值不值得长期持有？</b></bq>
-<h2>4种真正的护城河</h2>
-<div class="cg">
-<div class="pl"><div class="pn">01</div><div class="pt">品牌心智</div><div class="px">想到品类就想到你。例：可口可乐、茅台。</div></div>
-<div class="pl"><div class="pn">02</div><div class="pt">转换成本</div><div class="px">换掉的代价极高。例：苹果生态。</div></div>
-<div class="pl"><div class="pn">03</div><div class="pt">网络效应</div><div class="px">用的人越多越好用。例：微信。</div></div>
-<div class="pl"><div class="pn">04</div><div class="pt">成本优势</div><div class="px">规模效应或资源独占。例：比亚迪。</div></div>
-</div>
-<h2>机会成本</h2>
-<table><tr><th>选择</th><th>你放弃的</th></tr>
-<tr><td>刷2小时手机</td><td>= 看半本书/运动/陪家人</td></tr>
-<tr><td>持有A股票</td><td>= 持有B的收益</td></tr>
-<tr><td>和消耗你的人在一起</td><td>= 和滋养你的人的时间</td></tr></table>
-<bq>"告诉我怎么激励你，我就能告诉你你会怎么行动" — 芒格</bq>
-</div>
-<div class="pg" id="p-bi">
-<h1>生物学与进化论</h1>
-<div class="pm"><span class="tg">进化论</span><span class="tg">适应</span></div>
-<bq>核心问题：<b>什么样的特征能存活下来？我是在适应还是抗拒变化？</b></bq>
-<h2>核心模型</h2>
-<h3>适者生存</h3>
-<ul><li>商业世界 = 物竞天择，能适应的公司存活</li>
-<li>投资：这家公司5年后还能存活吗？</li>
-<li>健康：人体被设计来运动，久坐是反进化的</li></ul>
-<h3>生态位</h3>
-<ul><li>每个物种占据独特生态位，不直接竞争</li>
-<li>我的独特生态位是什么？有没有在和自己不擅长的人硬碰硬？</li></ul>
-<h3>二阶效应</h3>
-<ul><li>一阶：今天直接结果。二阶：由结果引发的下一层结果</li>
-<li>今天熬夜爽了 → 明天精力差→决策失误→长期损失</li></ul>
-</div>
-<div class="pg" id="p-acc">
-<h1>会计学与财务分析</h1>
-<div class="pm"><span class="tg">三大报表</span><span class="tg">ROE</span></div>
-<bq>核心问题：<b>赚的是真钱还是假钱？资产质量如何？</b>同样适用于分析人。</bq>
-<h2>三大报表</h2>
-<table><tr><th>报表</th><th>回答</th><th>核心指标</th></tr>
-<tr><td><b>利润表</b></td><td>是否赚钱？</td><td>营收、净利润、毛利率</td></tr>
-<tr><td><b>资产负债表</b></td><td>是否健康？</td><td>负债率、流动比率</td></tr>
-<tr><td><b>现金流量表</b></td><td>利润是真是假？</td><td>经营性现金流、自由现金流</td></tr></table>
-<div class="hb"><b>铁律</b>：看利润不看现金流 = 被财务造假骗。</div>
-<h2>ROE</h2>
-<div class="hb gd" style="text-align:center;font-size:16px">ROE = 净利润 ÷ 净资产 → >15%为优秀</div>
-<h2>识人财报类比</h2>
-<table><tr><th>财务概念</th><th>识人类比</th></tr>
-<tr><td>利润表</td><td>跟你在一起是充电还是耗电？</td></tr>
-<tr><td>资产负债表</td><td>情绪负债多吗？</td></tr>
-<tr><td>现金流量表</td><td>说的和做的一致吗？</td></tr>
-<tr><td>ROE</td><td>相处的时间ROE是正的吗？</td></tr></table>
-</div>
-<div class="pg" id="p-ph">
-<h1>哲学与逻辑学</h1>
-<div class="pm"><span class="tg">第一性原理</span><span class="tg">逆向思维</span></div>
-<bq>核心问题：<b>这个结论的前提可靠吗？有没有更根本的解法？</b></bq>
-<h2>第一性原理</h2>
-<div class="hb gd">拆解一切表象，回到不可再拆分的基本事实，从这里重新推导。</div>
-<ol><li>抛开所有既有结论和别人看法</li><li>只看最基本事实：本质是什么？</li><li>从基本事实重新推导</li></ol>
-<h2>反面思考</h2>
-<bq>"反过来想，一定要反过来想" — 芒格</bq>
-<ul><li>不只问"怎么成功"，也问"怎么失败"</li>
-<li>投资：如果我会亏，最可能因为什么？</li>
-<li>识人：这个人翻脸时最差会怎样？</li></ul>
-<h2>奥卡姆剃刀</h2>
-<p>如无必要，勿增实体。解释一件事，优先选最简单的。</p>
-</div>
-<div class="pg" id="p-hi">
-<h1>历史学与社会学</h1>
-<div class="pm"><span class="tg">周期</span><span class="tg">人性不变</span></div>
-<bq>核心问题：<b>历史上类似的情况怎么发展的？人性不变，我是否在重蹈覆辙？</b></bq>
-<h2>周期理论</h2>
-<ul><li>市场有周期，经济有周期，人生也有周期</li>
-<li>当大家说"这次不一样"时，往往是周期顶部</li>
-<li>低谷不是终点，是下一个高峰的起点</li></ul>
-<h2>人性不变</h2>
-<ul><li>技术在变，但人性从未变：贪婪、恐惧、从众、短视</li>
-<li>分析市场情绪时，不看新闻，看人性</li></ul>
-<h2>幸存者偏差</h2>
-<ul><li>看到的成功案例是从海量失败中筛选出来的</li>
-<li>某个投资方法看起来很成功，但幸存者偏差了多少失败者？</li></ul>
-</div>
-<div class="pg" id="p-ht">
-<h1>健康决策原则</h1>
-<div class="pm"><span class="tg">健康</span><span class="tg">芒格</span><span class="tg">纳瓦尔</span></div>
-<bq><b>核心规则：健康是第一核心资产，是一切复利的载体。没有健康，财富和幸福都归零。</b><br>芒格："我认识的聪明人没有一个不每天锻炼的。没有例外。"</bq>
-<h2>四大健康支柱</h2>
-<div class="cg">
-<div class="pl"><div class="pn">💪</div><div class="pt">运动（每天30分钟）</div><div class="px">芒格铁律：每天运动没有例外。心率60%-70%。工作时段10:30/14:30/16:00各10分钟跳绳。</div></div>
-<div class="pl"><div class="pn">😴</div><div class="pt">睡眠（7.5小时）</div><div class="px">23:00入睡|7:00起床，5个完整90分钟周期。睡前1小时关电子设备。</div></div>
-<div class="pl"><div class="pn">🥗</div><div class="pt">饮食（7分饱+低糖低油）</div><div class="px">早：高蛋白+慢碳。午：7分饱。晚：清淡少碳水。上午1杯黑咖啡，下午2点后不碰。</div></div>
-<div class="pl"><div class="pn">⚡</div><div class="pt">精力管理</div><div class="px">最高精力→自我提升。中等→工作保达标。剩余→休息。禁忌：把最高精力给工作。</div></div>
-</div>
-<h2>失控恢复流程</h2>
-<pre>1. 暂停觉察（3次深呼吸）→ 我在逃避什么？
-2. 回到底层逻辑 → 健康是一切的基础
-3. 小步行动 → 今天走15分钟/今晚不熬夜
-4. 一次失控 ≠ 前功尽弃 → 尽快回来</pre>
-<h2>交叉验证</h2>
-<table><tr><th>学科</th><th>健康决策应用</th></tr>
-<tr><td>生物学</td><td>进化论：久坐是反进化的</td></tr>
-<tr><td>数学概率</td><td>复利：每天30分钟，30年质的飞跃</td></tr>
-<tr><td>经济学</td><td>机会成本：不运动的代价巨大</td></tr>
-<tr><td>哲学</td><td>反面思考：最差情况是什么？</td></tr>
-<tr><td>历史</td><td>二阶效应：今天熬夜→明天精力差→长期损失</td></tr></table>
-</div>
-<div class="pg" id="p-pp">
-<h1>识人决策原则</h1>
-<div class="pm"><span class="tg">识人</span><span class="tg">价值投资</span></div>
-<bq><b>核心规则：人 = 终身上市公司。看人只看长期价值（商业模式），不看短期情绪（股价）。</b></bq>
-<h2>识人5步法</h2>
-<div class="cg">
-<div class="pl"><div class="pn">01</div><div class="pt">剥离表象</div><div class="px">不听他说什么，只看他做什么。嘴炮=财务造假。</div></div>
-<div class="pl"><div class="pn">02</div><div class="pt">锚定驱动力</div><div class="px">求安全/求利益/求意义自尊。利益冲突场景最能看清。</div></div>
-<div class="pl"><div class="pn">03</div><div class="pt">验证底盘</div><div class="px">人品+情绪稳定性+言行一致。无底线=无护城河。</div></div>
-<div class="pl"><div class="pn">04</div><div class="pt">回看历史</div><div class="px">3-5年一贯表现 > 当下态度 > 一次高光。</div></div>
-<div class="pl"><div class="pn">05</div><div class="pt">划定仓位</div><div class="px">90-100:核心重仓 | 70-89:持有 | 60-69:轻仓 | &lt;60:清仓</div></div>
-</div>
-<h2>财报打分表（100分）</h2>
-<table><tr><th>维度</th><th>5分</th><th>3分</th><th>0分</th></tr>
-<tr><td><b>商业模式(25)</b></td><td>求利（正直务实）</td><td>求安（温和）</td><td>求欲（情绪主导）</td></tr>
-<tr><td><b>情绪现金流(25)</b></td><td>鼓励、松弛感</td><td>中性</td><td>负能量爆棚</td></tr>
-<tr><td><b>护城河人品(20)</b></td><td>原则性极强</td><td>大是非不含糊</td><td>不择手段</td></tr>
-<tr><td><b>历史业绩(15)</b></td><td>一贯优秀</td><td>有好有坏</td><td>一贯拉胯</td></tr>
-<tr><td><b>风控(15)</b></td><td>最差也体面</td><td>可忍受</td><td>会毁了你的生活</td></tr></table>
-<div class="hb gd" style="font-style:italic">"如果用这笔感情/时间去投资，回报率是正的吗？" → 正=快乐/成长/心安 | 负=内耗/痛苦/焦虑</div>
-</div>
-<div class="pg" id="p-iv">
-<h1>投资决策原则</h1>
-<div class="pm"><span class="tg">价值投资</span><span class="tg">芒格</span><span class="tg">巴菲特</span></div>
-<bq><b>核心规则：投资四问 + 估值三支柱 + 双检核。不懂不投，只用闲钱。</b></bq>
-<h2>投资四问</h2>
-<table><tr><th>问题</th><th>本质</th><th>工具</th></tr>
-<tr><td>生意的本质是什么？</td><td>商业模式和护城河</td><td>经济学</td></tr>
-<tr><td>未来5-10年更值钱吗？</td><td>长期确定性</td><td>进化论</td></tr>
-<tr><td>价格有安全边际吗？</td><td>赔率和期望值</td><td>数学概率</td></tr>
-<tr><td>我错了会怎样？</td><td>风险与止损</td><td>反面思考</td></tr></table>
-<h2>估值三支柱</h2>
-<div class="cg">
-<div class="pl"><div class="pn">质</div><div class="pt">生意质量</div><div class="px">护城河？管理层？品牌/转换成本/网络效应/成本优势</div></div>
-<div class="pl"><div class="pn">量</div><div class="pt">财务质量</div><div class="px">真钱？ROE？自由现金流？负债率？</div></div>
-<div class="pl"><div class="pn">价</div><div class="pt">估值水平</div><div class="px">PE、PB、自由现金流收益率</div></div>
-</div>
-<h2>双检核</h2>
-<table><tr><th>芒格：反面思考</th><th>巴菲特：能力圈</th></tr>
-<tr><td>如果我会亏，最可能因为什么？</td><td>5分钟向10岁小孩解释？</td></tr>
-<tr><td>什么变化会摧毁这家公司？</td><td>不懂不投，没有例外</td></tr></table>
-<h2>市场情绪对照</h2>
-<table><tr><th>市场状态</th><th>大众情绪</th><th>你的行为</th></tr>
-<tr><td>牛市狂热</td><td>"这次不一样"</td><td>保持清醒，逐步减仓</td></tr>
-<tr><td>熊市恐慌</td><td>"永远涨不回来"</td><td>保持信心，寻找机会</td></tr>
-<tr><td>震荡无聊</td><td>"什么都不值得投"</td><td>耐心等待，持续学习</td></tr></table>
-<h2>学习路径</h2>
-<table><tr><th>阶段</th><th>目标</th><th>推荐</th></tr>
-<tr><td>入门</td><td>正确金钱观，先学不亏钱</td><td>《小狗钱钱》《指数基金投资指南》</td></tr>
-<tr><td>进阶</td><td>投资本质=投生意</td><td>《一本书读懂财报》《巴菲特的护城河》</td></tr>
-<tr><td>实战</td><td>商业认知落地</td><td>《巴菲特致股东的信》《聪明的投资者》</td></tr>
-<tr><td>高阶</td><td>股权投资本质</td><td>《价值》（张磊）《风险投资史》</td></tr></table>
-</div>
-<div class="pg" id="p-rl">
-<h1>关系与幸福原则</h1>
-<div class="pm"><span class="tg">关系</span><span class="tg">幸福</span><span class="tg">爱</span></div>
-<bq><b>核心规则：先修己再爱人，以给予为核心，以尊重为前提。幸福是活成了对的人之后自然而然的馈赠。</b></bq>
-<h2>爱的三条铁律</h2>
-<div class="cg">
-<div class="pl"><div class="pn">01</div><div class="pt">先修己再爱人</div><div class="px">你给不出你没有的东西。自己没有安全感→只能通过控制获得。</div></div>
-<div class="pl"><div class="pn">02</div><div class="pt">以给予为核心</div><div class="px">不是"你要满足我的期待"，而是"我愿意给你支持与接纳"。</div></div>
-<div class="pl"><div class="pn">03</div><div class="pt">以尊重为前提</div><div class="px">先好奇"他为什么会这么选"。没有尊重的爱=支配与占有。</div></div>
-</div>
-<h2>幸福的三个维度</h2>
-<table><tr><th>维度</th><th>核心</th></tr>
-<tr><td><b>对内：内核稳定</b></td><td>锚点从"外求"转向"内生"。没有内耗=最大幸福。</td></tr>
-<tr><td><b>对外：关系滋养</b></td><td>精准识人避雷，筛选滋养型关系。</td></tr>
-<tr><td><b>对事：持续成长</b></td><td>人生价值随时间复利增长。活在当下。</td></tr></table>
-<h2>面对痛苦的三步法</h2>
-<ol><li><b>先接纳，不抗拒</b> — 痛苦是常态</li>
-<li><b>再拆解，不焦虑</b> — 可控的穷尽办法，不可控的彻底接纳</li>
-<li><b>终迭代，不浪费</b> — 把痛苦变成优化操作系统的机会</li></ol>
-<div class="hb">享乐适应：外部事件带来的幸福感半年内回归基线 → 这套体系给你的不是一次性快乐，而是持续创造幸福的能力。</div>
-<h2>自我与他者</h2>
-<ol><li>坦然接纳"渴望被看见"的本能</li>
-<li>自我感受第一，他人认可第二</li>
-<li>留一个"无人看见也愿意做的事"作为压舱石</li></ol>
-<bq>地狱不是他人本身，而是你自愿戴上他人凝视的镣铐。</bq>
-</div>
-<div class="pg" id="p-sm">
-<h1>自我管理原则</h1>
-<div class="pm"><span class="tg">精力管理</span><span class="tg">作息</span></div>
-<bq><b>核心规则：把每日最高质量的纯净精力优先留给自我提升，工作仅保达标不内卷。</b></bq>
-<h2>精力分配铁律</h2>
-<pre>最高质量精力 → 自我提升（学习、运动、思考）
-       ↓
-  中等精力 → 工作（保达标，不追求完美）
-       ↓
-  剩余精力 → 休息放松
-
-⚠️ 禁忌：把最高精力给工作，然后"太累了"不学习不运动</pre>
-<h2>核心作息</h2>
-<div class="hb gd" style="text-align:center;font-size:16px;font-weight:700">入睡 23:00 | 起床 7:00 | 5个完整90分钟周期</div>
-<h2>分时段执行表</h2>
-<table><tr><th>时段</th><th>活动</th></tr>
-<tr><td>7:00-7:15</td><td>起床激活（自然光+温水+拉伸）</td></tr>
-<tr><td><b>7:15-8:00</b></td><td>🔥 核心深度学习（全天精力最纯净）</td></tr>
-<tr><td>8:00-8:20</td><td>早餐（高蛋白+慢碳）</td></tr>
-<tr><td>9:00-10:30</td><td>核心工作（保达标）</td></tr>
-<tr><td>10:30-10:45</td><td>💪 摸鱼跳绳</td></tr>
-<tr><td>12:00-13:00</td><td>午餐（7分饱）+午休（≤20分钟）</td></tr>
-<tr><td>14:30-14:45</td><td>💪 第二次跳绳</td></tr>
-<tr><td><b>19:20-20:00</b></td><td>💪 补充运动</td></tr>
-<tr><td><b>20:00-21:30</b></td><td>🔥 二次深度学习</td></tr>
-<tr><td>21:30-22:30</td><td>无屏幕放松</td></tr>
-<tr><td>22:30-23:00</td><td>睡眠准备（关电子设备）</td></tr></table>
-<h2>人生CEO每日三问</h2>
-<div class="cg">
-<div class="pl"><div class="pn">①</div><div class="pt">今天积累资产了吗？</div><div class="px">能力/人脉/健康/知识/钱</div></div>
-<div class="pl"><div class="pn">②</div><div class="pt">今天减少负债了吗？</div><div class="px">内耗/坏关系/坏习惯/风险</div></div>
-<div class="pl"><div class="pn">③</div><div class="pt">精力ROE如何？</div><div class="px">投到高ROE业务还是低价值杂事？</div></div>
-</div>
-</div>
-<div class="pg" id="p-rv">
-<h1>复盘迭代机制</h1>
-<div class="pm"><span class="tg">复盘</span><span class="tg">达利欧</span></div>
-<bq>"痛苦 + 反思 = 进步" — 达利欧<br>认知体系不是一次性构建的，而是通过持续复盘迭代不断进化。</bq>
-<h2>四级迭代节奏</h2>
-<table><tr><th>节奏</th><th>时机</th><th>核心动作</th></tr>
-<tr><td><b>日复盘</b></td><td>每晚22:30（10分钟）</td><td>觉察被带跑、挖动机、下次怎么拦</td></tr>
-<tr><td><b>周检视</b></td><td>每周日晚（30分钟）</td><td>精力ROE、资产负债表更新、原则校准</td></tr>
-<tr><td><b>季度更新</b></td><td>每季末（2小时）</td><td>体系升级、淘汰无效原则、新增新原则</td></tr>
-<tr><td><b>年度总结</b></td><td>每年末（半天）</td><td>方向校准、核心命题复核</td></tr></table>
-<h2>好的复盘 vs 坏的复盘</h2>
-<table><tr><th>坏的</th><th>好的</th></tr>
-<tr><td>罗列事件</td><td>挖到底层动机和模型失效原因</td></tr>
-<tr><td>"要更努力"</td><td>"下次遇到X情况，我按Y原则行动"</td></tr>
-<tr><td>只复盘失败</td><td>也复盘成功（哪个模型奏效了？）</td></tr>
-<tr><td>复盘但不更新体系</td><td>每次都有具体的体系更新动作</td></tr></table>
-<h2>体系进化信号</h2>
-<ul><li>遇到新情况，现有原则无法覆盖 → 添加新原则</li>
-<li>某条原则反复无效 → 淘汰或修改</li>
-<li>对某个概念有更深的理解 → 更新笔记</li>
-<li>同样错误超过3次 → 原则没内化，换方式训练</li></ul>
-</div>
-<div class="pg" id="p-tp">
-<h1>每日复盘模板</h1>
-<div class="pm"><span class="tg">模板</span><span class="tg">每日</span></div>
-<bq>每天晚上22:30-23:00用10分钟完成。</bq>
-<h2>今日复盘</h2>
-<div class="hb">
-<p><b>日期：</b>YYYY-MM-DD</p><br>
-<p><b>1. 今天我哪一次被情绪/外界带跑了？</b></p>
-<p style="color:var(--t3);font-size:13px">（具体事件，一句话描述）</p><br>
-<p><b>2. 当时我的真实动机是什么？</b></p>
-<p style="color:var(--t3);font-size:13px">（求认可？怕失去？焦虑？嫉妒？）</p><br>
-<p><b>3. 下次用哪条原则/模型可以提前拦住自己？</b></p>
-<p style="color:var(--t3);font-size:13px">（具体到某条决策原则或思维模型）</p>
-</div>
-<h2>人生CEO日检</h2>
-<div class="hb gn">
-<p><b>今天积累的资产：</b></p>
-<p style="color:var(--t3);font-size:13px">（能力/知识/健康/人脉/钱）</p><br>
-<p><b>今天减少的负债：</b></p>
-<p style="color:var(--t3);font-size:13px">（内耗/坏习惯/无效社交）</p><br>
-<p><b>精力ROE评估（1-5分）：</b></p>
-<p style="color:var(--t3);font-size:13px">1=精力全浪费 | 5=最高质量精力全部用于自我提升</p>
-</div>
-<h2>明日重点</h2>
-<div class="hb"><ol><li style="color:var(--t3)">（重点1）</li><li style="color:var(--t3)">（重点2）</li><li style="color:var(--t3)">（重点3）</li></ol></div>
+  <div id="tp">总索引</div>
+  <div id="ct"></div>
 </div>
 
-</div>
-</div>
 <script>
-var B={home:"🗺️ 总索引",wv:"🌍 三观",mc:"🔬 元认知",pr:"⚖️ 实用主义",sf:"🪞 与自己周旋",ps:"🧠 心理学",ma:"📊 数学概率",ec:"🏭 经济学",bi:"🧬 生物学",acc:"📋 会计学",ph:"💡 哲学逻辑",hi:"📜 历史社会",ht:"💪 健康",pp:"👤 识人",iv:"📈 投资",rl:"❤️ 关系幸福",sm:"⏰ 自我管理",rv:"🔄 迭代机制",tp:"📝 每日模板"};
-var A=null;
-function G(id,el){document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('ac')});
-document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('ac')});
-var pg=document.getElementById('p-'+id);if(pg)pg.classList.add('ac');
-if(el)el.classList.add('ac');else{document.querySelectorAll('.ni').forEach(function(n){if(n.textContent.trim()===B[id]||n.getAttribute('onclick').indexOf("'"+id+"'")>-1)n.classList.add('ac')})}
-document.getElementById('tp').textContent=B[id]||id;
-document.getElementById('ct').scrollTop=0;A=id}
-function T(h){h.parentElement.classList.toggle('c')}
-function S(q){q=q.toLowerCase();document.querySelectorAll('.ni').forEach(function(n){var m=n.textContent.toLowerCase().indexOf(q)>-1;n.style.display=q&&!m?'none':''})}
+// ===== DATA: 3-level knowledge tree =====
+// Each page has sections; each section can become a sub-page
+// parent: link to parent page id, for sub-pages
+// subs: array of sub-page ids that belong to this page (shown in sidebar when page is active)
+var D = {
+  home: {
+    title: "总索引", section: "总览",
+    html: '<h1>个人认知体系 v1.0</h1><div class="pm"><span class="tg">决策操作系统</span><span class="tg">芒格</span><span class="tg">纳瓦尔</span><span class="tg">达利欧</span></div><bq>这不是"我知道什么"的清单，而是"遇到问题时我该怎么想、怎么判断、怎么行动"的决策操作系统。参考芒格的跨学科思维模型栅格 + 达利欧的原则层级 + 纳瓦尔的极简三元命题（健康·财富·幸福）。</bq><h2>体系全景</h2><pre>┌──────────────────────────────────────────┐\n│  第一层：底层操作系统                      │\n│  → 三观 · 元认知 · 实用主义               │\n├──────────────────────────────────────────┤\n│  第二层：思维模型栅格（7大学科）            │\n│  → 心理学·数学概率·经济学·生物学           │\n│    会计财务·哲学逻辑·历史社会              │\n├──────────────────────────────────────────┤\n│  第三层：决策原则（条件→行动）              │\n│  → 健康·识人·投资·关系·自我管理            │\n├──────────────────────────────────────────┤\n│  第四层：复盘迭代（日/周/季/年）            │\n└──────────────────────────────────────────┘</pre><h2>使用方式</h2><pre>1. 暂停觉察 → 情绪主导还是理性主导？\n2. 调用模型 → 这个问题涉及哪些学科？\n3. 应用原则 → 匹配到哪个决策场景？\n4. 复盘更新 → 结果符合预期吗？</pre><h2>核心口诀</h2><div class="hb gd" style="font-size:16px;font-weight:700;text-align:center;letter-spacing:1px">遇事先觉察，看人看模式，决策看长期，不懂不参与，失控先暂停，健康是第一。</div><h2>快速导航</h2><div class="cg"><div class="cd" onclick="G(\'wv\')"><div class="ct">三观：底层信念系统</div><div class="cx">所有思考的总地图</div></div><div class="cd" onclick="G(\'ht\')"><div class="ct">健康决策原则</div><div class="cx">运动·睡眠·饮食·精力管理</div></div><div class="cd" onclick="G(\'iv\')"><div class="ct">投资决策原则</div><div class="cx">四问+三支柱+双检核</div></div><div class="cd" onclick="G(\'pp\')"><div class="ct">识人决策原则</div><div class="cx">人=终身上市公司，6维打分</div></div><div class="cd" onclick="G(\'rv\')"><div class="ct">复盘迭代机制</div><div class="cx">日/周/季/年四级迭代</div></div></div>'
+  },
+
+  wv: {
+    title: "三观", section: "底层操作系统",
+    html: '<h1>三观：底层信念系统</h1><div class="pm"><span class="tg">世界观</span><span class="tg">人生观</span><span class="tg">价值观</span></div><bq>三观是"底层操作系统" — 所有思考、判断、行动的总源头。回答：世界是什么样的？我该怎么活？什么选择更值得？</bq>',
+    subs: ["wv-worldview","wv-life","wv-value","wv-invest"]
+  },
+  "wv-worldview": {
+    title: "世界观", parent: "wv",
+    html: '<div class="back-link" onclick="G(\'wv\')">← 返回 三观</div><h1>世界观</h1><div class="pm"><span class="tg">三观</span><span class="tg">底层操作系统</span></div><ul><li>底层逻辑是<b>价值交换</b> — 任何关系、组织、市场都是</li><li>世界是<b>演化系统</b> — 永远在变化，适者生存</li><li>规律不以人的意志为转移 — 尊重事实</li></ul><div class="hb"><b>应用</b>：先问"这背后的价值交换是什么？""演化方向是什么？"</div>'
+  },
+  "wv-life": {
+    title: "人生观", parent: "wv",
+    html: '<div class="back-link" onclick="G(\'wv\')">← 返回 三观</div><h1>人生观</h1><div class="pm"><span class="tg">三观</span><span class="tg">底层操作系统</span></div><table><tr><th>类比</th><th>含义</th></tr><tr><td>行为</td><td>日常经营</td></tr><tr><td>情绪</td><td>短期股价波动</td></tr><tr><td>品格/底层模式</td><td>商业模式 + 护城河</td></tr><tr><td>未来</td><td>长期价值</td></tr></table><div class="hb"><b>每天问自己</b>："今天的投入是在积累资产，还是在消耗资产？"</div>'
+  },
+  "wv-value": {
+    title: "价值观", parent: "wv",
+    html: '<div class="back-link" onclick="G(\'wv\')">← 返回 三观</div><h1>价值观</h1><div class="pm"><span class="tg">三观</span><span class="tg">底层操作系统</span></div><ul><li><b>底线绝对不动</b>：不违法、不害人、不违心、不损人利己</li><li><b>方法极致灵活</b>：底线之内，穷尽一切办法找最优解</li><li><b>算长期全局大账</b></li><li><b>道德不是束缚</b>，而是长期收益最高、风险最低的策略</li></ul>'
+  },
+  "wv-invest": {
+    title: "三观与投资同构", parent: "wv",
+    html: '<div class="back-link" onclick="G(\'wv\')">← 返回 三观</div><h1>三观与投资同构</h1><div class="pm"><span class="tg">三观</span><span class="tg">底层操作系统</span></div><table><tr><th>三观</th><th>投资类比</th><th>核心问题</th></tr><tr><td>世界观</td><td>对市场的底层认知</td><td>世界有没有不变的底层规则？</td></tr><tr><td>人生观</td><td>公司的使命与长期战略</td><td>我的人生终极目标是什么？</td></tr><tr><td>价值观</td><td>核心经营准则与风控红线</td><td>什么钱不能赚？什么底线不能破？</td></tr></table>'
+  },
+
+  mc: {
+    title: "元认知", section: "底层操作系统",
+    html: '<h1>元认知训练</h1><div class="pm"><span class="tg">元认知</span><span class="tg">思考框架</span></div><bq>元认知 = 观察自己的思考 + 校准自己的思考 + 不让情绪/本能替你做决定</bq>',
+    subs: ["mc-first","mc-ceo","mc-anchor","mc-check","mc-daily"]
+  },
+  "mc-first": {
+    title: "第一性原理思考", parent: "mc",
+    html: '<div class="back-link" onclick="G(\'mc\')">← 返回 元认知</div><h1>第一性原理思考</h1><div class="pm"><span class="tg">元认知</span><span class="tg">底层操作系统</span></div><pre>事实层：真正发生了什么？有数据/证据吗？\n逻辑层：推导过程对不对？有没有跳跃？\n价值层：对我的核心资产有利还是有害？</pre>'
+  },
+  "mc-ceo": {
+    title: "人生CEO视角", parent: "mc",
+    html: '<div class="back-link" onclick="G(\'mc\')">← 返回 元认知</div><h1>人生CEO视角</h1><div class="pm"><span class="tg">元认知</span><span class="tg">底层操作系统</span></div><table><tr><th>资产</th><th>负债</th></tr><tr><td>健康、能力、信用、投资、正向关系</td><td>熬夜、情绪内耗、无效社交、高风险行为</td></tr></table>'
+  },
+  "mc-anchor": {
+    title: "内在锚定", parent: "mc",
+    html: '<div class="back-link" onclick="G(\'mc\')">← 返回 元认知</div><h1>内在锚定</h1><div class="pm"><span class="tg">元认知</span><span class="tg">底层操作系统</span></div><p>在意别人看法时问：①这评价能决定我的长期价值吗？②我在做正确的事还是让他满意的事？③5年后回头看呢？</p><div class="hb gn"><b>训练结果</b>：别人夸你不飘，别人否定你不崩</div>'
+  },
+  "mc-check": {
+    title: "思考前置校验", parent: "mc",
+    html: '<div class="back-link" onclick="G(\'mc\')">← 返回 元认知</div><h1>思考前置校验</h1><div class="pm"><span class="tg">元认知</span><span class="tg">底层操作系统</span></div><ol><li>我在思考什么？</li><li>用什么方式思考？（归纳？演绎？情绪？）</li><li>证据/前提可靠吗？</li><li>有没有偏见/盲区？</li></ol>'
+  },
+  "mc-daily": {
+    title: "每日10分钟训练", parent: "mc",
+    html: '<div class="back-link" onclick="G(\'mc\')">← 返回 元认知</div><h1>每日10分钟训练</h1><div class="pm"><span class="tg">元认知</span><span class="tg">底层操作系统</span></div><div class="cg"><div class="pl"><div class="pn">☀</div><div class="pt">早上3分钟</div><div class="px">默读5条价值公理：只做长期正向价值创造/我是人生CEO/自由=不被绑架/财富=睡觉时赚钱/健康是第一核心资产</div></div><div class="pl"><div class="pn">↻</div><div class="pt">白天3次暂停</div><div class="px">纠结时：①情绪主导还是理性？②增加资产还是消耗？③追求真实价值还是迎合别人？</div></div><div class="pl"><div class="pn">☽</div><div class="pt">晚上4分钟</div><div class="px">①今天哪一次被带跑了？②真实动机是什么？③下次用哪条公理可以拦住？</div></div></div>'
+  },
+
+  pr: {
+    title: "实用主义", section: "底层操作系统",
+    html: '<h1>高明的实用主义</h1><div class="pm"><span class="tg">道德</span><span class="tg">长期主义</span></div><bq>底线不动，方法灵活。道德是长期收益最高、风险最低的处事策略。</bq><h2>四条不可妥协的红线</h2><div class="hb gd" style="font-size:16px;font-weight:700;text-align:center;letter-spacing:2px">不违法 · 不害人 · 不违心 · 不损人利己</div><h2>四条落地规则</h2><ol><li><b>先划底线，再想办法</b> — 排除突破底线的方案，再穷尽正当方案</li><li><b>算大账不算小账</b> — 3年、5年后会带来什么？会不会埋雷？</li><li><b>优先找共赢方案</b> — 利他是长期利己的最可靠路径</li><li><b>守得住底线，放得开手脚</b></li></ol><h2>决策流程</h2><pre>1. 突破红线了吗？ → 突破了 → 不做\n2. 长期全局最优方案是什么？\n3. 有没有共赢方案？ → 有→优先 → 没有→选伤害最小的\n4. 做完之后我睡得着吗？ → 睡不着→重新考虑</pre>'
+  },
+
+  sf: {
+    title: "与自己周旋", section: "底层操作系统",
+    html: '<h1>与自己周旋</h1><div class="pm"><span class="tg">自我接纳</span><span class="tg">宁做我</span></div><bq>"我与我周旋久，宁做我" — 做我，从来不是做那个剔除了所有弱点的完美自我，而是做那个完整的、真实的、哪怕带着不堪与阴影，依然坦然活着的本我。</bq><h2>5步周旋方法</h2><div class="cg"><div class="pl"><div class="pn">01</div><div class="pt">停止敌我对抗</div><div class="px">用第三人称称呼自己。❌"我怎么这么嫉妒" → ✅"我此刻产生了嫉妒的情绪"。</div></div><div class="pl"><div class="pn">02</div><div class="pt">听懂情绪潜台词</div><div class="px">①最强烈的情绪？②被什么触发？③在告诉我什么核心需求？</div></div><div class="pl"><div class="pn">03</div><div class="pt">和平共处公约</div><div class="px">接纳情绪，约束行为。嫉妒允许产生但不诋毁别人。</div></div><div class="pl"><div class="pn">04</div><div class="pt">从纠错转向建设</div><div class="px">停止缺点日记，开启闪光记录。种满鲜花，杂草自然没有空间。</div></div><div class="pl"><div class="pn">05</div><div class="pt">周旋是常态</div><div class="px">一辈子的事，没有一劳永逸的终点。今天和解明天可能又拉扯，这太正常了。</div></div></div><h2>"宁做我"的三层含义</h2><ol><li><b>接纳完整的我</b> — 能慷慨付出的是你，会怕被消耗的也是你</li><li><b>不改掉所有缺点也配做自己</b> — 周旋的目的是和平共处，不是打赢</li><li><b>忠于内心，不迎合外界</b></li></ol>'
+  },
+
+  ps: {
+    title: "心理学", section: "思维模型栅格",
+    html: '<h1>心理学思维模型</h1><div class="pm"><span class="tg">心理学</span><span class="tg">芒格</span></div><bq>核心问题：<b>人为什么会这么想、这么做？包括我自己。</b>这是7大学科栅格里最常调用的学科。</bq>',
+    subs: ["ps-bias","ps-maslow","ps-love","ps-hedonic"]
+  },
+  "ps-bias": {
+    title: "核心认知偏差", parent: "ps",
+    html: '<div class="back-link" onclick="G(\'ps\')">← 返回 心理学</div><h1>核心认知偏差清单</h1><div class="pm"><span class="tg">心理学</span><span class="tg">思维模型栅格</span></div><table><tr><th>偏差</th><th>本质</th><th>如何防止</th></tr><tr><td><b>确认偏误</b></td><td>只看支持自己的证据</td><td>主动寻找反面证据</td></tr><tr><td><b>损失厌恶</b></td><td>亏100块的痛苦 > 赚100块的快乐</td><td>关注期望值</td></tr><tr><td><b>锚定效应</b></td><td>第一个数字锚定后续判断</td><td>先独立判断</td></tr><tr><td><b>从众效应</b></td><td>别人怎么做我也怎么做</td><td>问"为什么这么做"</td></tr><tr><td><b>达克效应</b></td><td>能力越低越自信</td><td>承认无知</td></tr></table><p style="margin-top:20px;color:var(--t3);font-size:13px">后续可继续添加更多认知偏差条目。</p>'
+  },
+  "ps-maslow": {
+    title: "需求层次", parent: "ps",
+    html: '<div class="back-link" onclick="G(\'ps\')">← 返回 心理学</div><h1>需求层次</h1><div class="pm"><span class="tg">心理学</span><span class="tg">思维模型栅格</span></div><pre>自我实现（成长性·灵魂上限）\n    ↑\n  尊重需求（幸福度决定因素）\n    ↑\n归属与爱（深浅分界线）\n    ↑\n 安全需求（关系稳定基石）\n    ↑\n  生理需求（最低存续门槛）</pre><p>后续可在此展开马斯洛需求理论的详细解读、应用场景、与其他心理学概念的交叉等。</p>'
+  },
+  "ps-love": {
+    title: "爱的艺术", parent: "ps",
+    html: '<div class="back-link" onclick="G(\'ps\')">← 返回 心理学</div><h1>爱的艺术</h1><div class="pm"><span class="tg">心理学</span><span class="tg">思维模型栅格</span></div><table><tr><th>不成熟的爱</th><th>成熟的爱</th></tr><tr><td>"我爱你，因为我需要你"（索取型）</td><td>"我需要你，因为我爱你"（给予型）</td></tr></table>'
+  },
+  "ps-hedonic": {
+    title: "享乐适应", parent: "ps",
+    html: '<div class="back-link" onclick="G(\'ps\')">← 返回 心理学</div><h1>享乐适应</h1><div class="pm"><span class="tg">心理学</span><span class="tg">思维模型栅格</span></div><div class="hb">任何外部事件带来的幸福感都会在半年内回归基线 → 追求"幸福能力"而非"幸福事件"。</div>'
+  },
+
+  ma: {
+    title: "数学概率", section: "思维模型栅格",
+    html: '<h1>数学与概率</h1><div class="pm"><span class="tg">复利</span><span class="tg">期望值</span><span class="tg">安全边际</span></div><bq>核心问题：<b>这件事发生的真实概率是多少？长期期望值是正的还是负的？</b></bq>',
+    subs: ["ma-compound","ma-ev","ma-margin","ma-revert"]
+  },
+  "ma-compound": {
+    title: "复利", parent: "ma",
+    html: '<div class="back-link" onclick="G(\'ma\')">← 返回 数学概率</div><h1>复利</h1><div class="pm"><span class="tg">数学概率</span><span class="tg">思维模型栅格</span></div><ul><li>资金复利：长期稳定高ROE > 短期暴利</li><li>能力复利：每天进步1%，1年后是37倍</li><li>健康复利：每天运动30分钟，复利30年是质的飞跃</li></ul>'
+  },
+  "ma-ev": {
+    title: "期望值", parent: "ma",
+    html: '<div class="back-link" onclick="G(\'ma\')">← 返回 数学概率</div><h1>期望值 = 概率 × 回报</h1><div class="pm"><span class="tg">数学概率</span><span class="tg">思维模型栅格</span></div><div class="hb">不要问"会成功吗"，而是问："<b>成功概率×成功收益 - 失败概率×失败损失 = 值得做吗？</b>"</div>'
+  },
+  "ma-margin": {
+    title: "安全边际", parent: "ma",
+    html: '<div class="back-link" onclick="G(\'ma\')">← 返回 数学概率</div><h1>安全边际</h1><div class="pm"><span class="tg">数学概率</span><span class="tg">思维模型栅格</span></div><ul><li>好公司 + 低估值才是好投资</li><li>不要满仓，不要借钱，保留弹药</li></ul>'
+  },
+  "ma-revert": {
+    title: "均值回归", parent: "ma",
+    html: '<div class="back-link" onclick="G(\'ma\')">← 返回 数学概率</div><h1>均值回归</h1><div class="pm"><span class="tg">数学概率</span><span class="tg">思维模型栅格</span></div><ul><li>任何极端状态都会回归平均值</li><li>市场极度悲观时往往是买入时机</li></ul>'
+  },
+
+  ec: {
+    title: "经济学", section: "思维模型栅格",
+    html: '<h1>微观经济学与商业分析</h1><div class="pm"><span class="tg">护城河</span><span class="tg">商业模式</span></div><bq>核心问题：<b>这门生意怎么赚钱？护城河在哪？值不值得长期持有？</b></bq>',
+    subs: ["ec-moat","ec-oc"]
+  },
+  "ec-moat": {
+    title: "护城河", parent: "ec",
+    html: '<div class="back-link" onclick="G(\'ec\')">← 返回 经济学</div><h1>4种真正的护城河</h1><div class="pm"><span class="tg">经济学</span><span class="tg">思维模型栅格</span></div><div class="cg"><div class="pl"><div class="pn">01</div><div class="pt">品牌心智</div><div class="px">想到品类就想到你。例：可口可乐、茅台。</div></div><div class="pl"><div class="pn">02</div><div class="pt">转换成本</div><div class="px">换掉的代价极高。例：苹果生态。</div></div><div class="pl"><div class="pn">03</div><div class="pt">网络效应</div><div class="px">用的人越多越好用。例：微信。</div></div><div class="pl"><div class="pn">04</div><div class="pt">成本优势</div><div class="px">规模效应或资源独占。例：比亚迪。</div></div></div>'
+  },
+  "ec-oc": {
+    title: "机会成本", parent: "ec",
+    html: '<div class="back-link" onclick="G(\'ec\')">← 返回 经济学</div><h1>机会成本</h1><div class="pm"><span class="tg">经济学</span><span class="tg">思维模型栅格</span></div><table><tr><th>选择</th><th>你放弃的</th></tr><tr><td>刷2小时手机</td><td>= 看半本书/运动/陪家人</td></tr><tr><td>持有A股票</td><td>= 持有B的收益</td></tr><tr><td>和消耗你的人在一起</td><td>= 和滋养你的人的时间</td></tr></table><bq>"告诉我怎么激励你，我就能告诉你你会怎么行动" — 芒格</bq>'
+  },
+
+  bi: {
+    title: "生物学", section: "思维模型栅格",
+    html: '<h1>生物学与进化论</h1><div class="pm"><span class="tg">进化论</span><span class="tg">适应</span></div><bq>核心问题：<b>什么样的特征能存活下来？我是在适应还是抗拒变化？</b></bq>',
+    subs: ["bi-survival","bi-niche","bi-second"]
+  },
+  "bi-survival": {
+    title: "适者生存", parent: "bi",
+    html: '<div class="back-link" onclick="G(\'bi\')">← 返回 生物学</div><h1>适者生存</h1><div class="pm"><span class="tg">生物学</span><span class="tg">思维模型栅格</span></div><ul><li>商业世界 = 物竞天择，能适应的公司存活</li><li>投资：这家公司5年后还能存活吗？</li><li>健康：人体被设计来运动，久坐是反进化的</li></ul>'
+  },
+  "bi-niche": {
+    title: "生态位", parent: "bi",
+    html: '<div class="back-link" onclick="G(\'bi\')">← 返回 生物学</div><h1>生态位</h1><div class="pm"><span class="tg">生物学</span><span class="tg">思维模型栅格</span></div><ul><li>每个物种占据独特生态位，不直接竞争</li><li>我的独特生态位是什么？有没有在和自己不擅长的人硬碰硬？</li></ul>'
+  },
+  "bi-second": {
+    title: "二阶效应", parent: "bi",
+    html: '<div class="back-link" onclick="G(\'bi\')">← 返回 生物学</div><h1>二阶效应</h1><div class="pm"><span class="tg">生物学</span><span class="tg">思维模型栅格</span></div><ul><li>一阶：今天直接结果。二阶：由结果引发的下一层结果</li><li>今天熬夜爽了 → 明天精力差→决策失误→长期损失</li></ul>'
+  },
+
+  acc: {
+    title: "会计学", section: "思维模型栅格",
+    html: '<h1>会计学与财务分析</h1><div class="pm"><span class="tg">三大报表</span><span class="tg">ROE</span></div><bq>核心问题：<b>赚的是真钱还是假钱？资产质量如何？</b>同样适用于分析人。</bq>',
+    subs: ["acc-report","acc-roe","acc-person"]
+  },
+  "acc-report": {
+    title: "三大报表", parent: "acc",
+    html: '<div class="back-link" onclick="G(\'acc\')">← 返回 会计学</div><h1>三大报表</h1><div class="pm"><span class="tg">会计学</span><span class="tg">思维模型栅格</span></div><table><tr><th>报表</th><th>回答</th><th>核心指标</th></tr><tr><td><b>利润表</b></td><td>是否赚钱？</td><td>营收、净利润、毛利率</td></tr><tr><td><b>资产负债表</b></td><td>是否健康？</td><td>负债率、流动比率</td></tr><tr><td><b>现金流量表</b></td><td>利润是真是假？</td><td>经营性现金流、自由现金流</td></tr></table><div class="hb"><b>铁律</b>：看利润不看现金流 = 被财务造假骗。</div>'
+  },
+  "acc-roe": {
+    title: "ROE", parent: "acc",
+    html: '<div class="back-link" onclick="G(\'acc\')">← 返回 会计学</div><h1>ROE</h1><div class="pm"><span class="tg">会计学</span><span class="tg">思维模型栅格</span></div><div class="hb gd" style="text-align:center;font-size:16px">ROE = 净利润 ÷ 净资产 → >15%为优秀</div>'
+  },
+  "acc-person": {
+    title: "识人财报类比", parent: "acc",
+    html: '<div class="back-link" onclick="G(\'acc\')">← 返回 会计学</div><h1>识人财报类比</h1><div class="pm"><span class="tg">会计学</span><span class="tg">思维模型栅格</span></div><table><tr><th>财务概念</th><th>识人类比</th></tr><tr><td>利润表</td><td>跟你在一起是充电还是耗电？</td></tr><tr><td>资产负债表</td><td>情绪负债多吗？</td></tr><tr><td>现金流量表</td><td>说的和做的一致吗？</td></tr><tr><td>ROE</td><td>相处的时间ROE是正的吗？</td></tr></table>'
+  },
+
+  ph: {
+    title: "哲学逻辑", section: "思维模型栅格",
+    html: '<h1>哲学与逻辑学</h1><div class="pm"><span class="tg">第一性原理</span><span class="tg">逆向思维</span></div><bq>核心问题：<b>这个结论的前提可靠吗？有没有更根本的解法？</b></bq>',
+    subs: ["ph-first","ph-reverse","ph-occam"]
+  },
+  "ph-first": {
+    title: "第一性原理", parent: "ph",
+    html: '<div class="back-link" onclick="G(\'ph\')">← 返回 哲学逻辑</div><h1>第一性原理</h1><div class="pm"><span class="tg">哲学逻辑</span><span class="tg">思维模型栅格</span></div><div class="hb gd">拆解一切表象，回到不可再拆分的基本事实，从这里重新推导。</div><ol><li>抛开所有既有结论和别人看法</li><li>只看最基本事实：本质是什么？</li><li>从基本事实重新推导</li></ol>'
+  },
+  "ph-reverse": {
+    title: "反面思考", parent: "ph",
+    html: '<div class="back-link" onclick="G(\'ph\')">← 返回 哲学逻辑</div><h1>反面思考</h1><div class="pm"><span class="tg">哲学逻辑</span><span class="tg">思维模型栅格</span></div><bq>"反过来想，一定要反过来想" — 芒格</bq><ul><li>不只问"怎么成功"，也问"怎么失败"</li><li>投资：如果我会亏，最可能因为什么？</li><li>识人：这个人翻脸时最差会怎样？</li></ul>'
+  },
+  "ph-occam": {
+    title: "奥卡姆剃刀", parent: "ph",
+    html: '<div class="back-link" onclick="G(\'ph\')">← 返回 哲学逻辑</div><h1>奥卡姆剃刀</h1><div class="pm"><span class="tg">哲学逻辑</span><span class="tg">思维模型栅格</span></div><p>如无必要，勿增实体。解释一件事，优先选最简单的。</p>'
+  },
+
+  hi: {
+    title: "历史社会", section: "思维模型栅格",
+    html: '<h1>历史学与社会学</h1><div class="pm"><span class="tg">周期</span><span class="tg">人性不变</span></div><bq>核心问题：<b>历史上类似的情况怎么发展的？人性不变，我是否在重蹈覆辙？</b></bq>',
+    subs: ["hi-cycle","hi-human","hi-survivor"]
+  },
+  "hi-cycle": {
+    title: "周期理论", parent: "hi",
+    html: '<div class="back-link" onclick="G(\'hi\')">← 返回 历史社会</div><h1>周期理论</h1><div class="pm"><span class="tg">历史社会</span><span class="tg">思维模型栅格</span></div><ul><li>市场有周期，经济有周期，人生也有周期</li><li>当大家说"这次不一样"时，往往是周期顶部</li><li>低谷不是终点，是下一个高峰的起点</li></ul>'
+  },
+  "hi-human": {
+    title: "人性不变", parent: "hi",
+    html: '<div class="back-link" onclick="G(\'hi\')">← 返回 历史社会</div><h1>人性不变</h1><div class="pm"><span class="tg">历史社会</span><span class="tg">思维模型栅格</span></div><ul><li>技术在变，但人性从未变：贪婪、恐惧、从众、短视</li><li>分析市场情绪时，不看新闻，看人性</li></ul>'
+  },
+  "hi-survivor": {
+    title: "幸存者偏差", parent: "hi",
+    html: '<div class="back-link" onclick="G(\'hi\')">← 返回 历史社会</div><h1>幸存者偏差</h1><div class="pm"><span class="tg">历史社会</span><span class="tg">思维模型栅格</span></div><ul><li>看到的成功案例是从海量失败中筛选出来的</li><li>某个投资方法看起来很成功，但幸存者偏差了多少失败者？</li></ul>'
+  },
+
+  ht: {
+    title: "健康", section: "决策原则",
+    html: '<h1>健康决策原则</h1><div class="pm"><span class="tg">健康</span><span class="tg">芒格</span><span class="tg">纳瓦尔</span></div><bq><b>核心规则：健康是第一核心资产，是一切复利的载体。没有健康，财富和幸福都归零。</b><br>芒格："我认识的聪明人没有一个不每天锻炼的。没有例外。"</bq>',
+    subs: ["ht-pillar","ht-recover","ht-cross"]
+  },
+  "ht-pillar": {
+    title: "四大健康支柱", parent: "ht",
+    html: '<div class="back-link" onclick="G(\'ht\')">← 返回 健康</div><h1>四大健康支柱</h1><div class="pm"><span class="tg">健康</span><span class="tg">决策原则</span></div><div class="cg"><div class="pl"><div class="pn">💪</div><div class="pt">运动（每天30分钟）</div><div class="px">芒格铁律：每天运动没有例外。心率60%-70%。工作时段10:30/14:30/16:00各10分钟跳绳。</div></div><div class="pl"><div class="pn">😴</div><div class="pt">睡眠（7.5小时）</div><div class="px">23:00入睡|7:00起床，5个完整90分钟周期。睡前1小时关电子设备。</div></div><div class="pl"><div class="pn">🥗</div><div class="pt">饮食（7分饱+低糖低油）</div><div class="px">早：高蛋白+慢碳。午：7分饱。晚：清淡少碳水。上午1杯黑咖啡，下午2点后不碰。</div></div><div class="pl"><div class="pn">⚡</div><div class="pt">精力管理</div><div class="px">最高精力→自我提升。中等→工作保达标。剩余→休息。禁忌：把最高精力给工作。</div></div></div>'
+  },
+  "ht-recover": {
+    title: "失控恢复流程", parent: "ht",
+    html: '<div class="back-link" onclick="G(\'ht\')">← 返回 健康</div><h1>失控恢复流程</h1><div class="pm"><span class="tg">健康</span><span class="tg">决策原则</span></div><pre>1. 暂停觉察（3次深呼吸）→ 我在逃避什么？\n2. 回到底层逻辑 → 健康是一切的基础\n3. 小步行动 → 今天走15分钟/今晚不熬夜\n4. 一次失控 ≠ 前功尽弃 → 尽快回来</pre>'
+  },
+  "ht-cross": {
+    title: "交叉验证", parent: "ht",
+    html: '<div class="back-link" onclick="G(\'ht\')">← 返回 健康</div><h1>交叉验证</h1><div class="pm"><span class="tg">健康</span><span class="tg">决策原则</span></div><table><tr><th>学科</th><th>健康决策应用</th></tr><tr><td>生物学</td><td>进化论：久坐是反进化的</td></tr><tr><td>数学概率</td><td>复利：每天30分钟，30年质的飞跃</td></tr><tr><td>经济学</td><td>机会成本：不运动的代价巨大</td></tr><tr><td>哲学</td><td>反面思考：最差情况是什么？</td></tr><tr><td>历史</td><td>二阶效应：今天熬夜→明天精力差→长期损失</td></tr></table>'
+  },
+
+  pp: {
+    title: "识人", section: "决策原则",
+    html: '<h1>识人决策原则</h1><div class="pm"><span class="tg">识人</span><span class="tg">价值投资</span></div><bq><b>核心规则：人 = 终身上市公司。看人只看长期价值（商业模式），不看短期情绪（股价）。</b></bq>',
+    subs: ["pp-steps","pp-score"]
+  },
+  "pp-steps": {
+    title: "识人5步法", parent: "pp",
+    html: '<div class="back-link" onclick="G(\'pp\')">← 返回 识人</div><h1>识人5步法</h1><div class="pm"><span class="tg">识人</span><span class="tg">决策原则</span></div><div class="cg"><div class="pl"><div class="pn">01</div><div class="pt">剥离表象</div><div class="px">不听他说什么，只看他做什么。嘴炮=财务造假。</div></div><div class="pl"><div class="pn">02</div><div class="pt">锚定驱动力</div><div class="px">求安全/求利益/求意义自尊。利益冲突场景最能看清。</div></div><div class="pl"><div class="pn">03</div><div class="pt">验证底盘</div><div class="px">人品+情绪稳定性+言行一致。无底线=无护城河。</div></div><div class="pl"><div class="pn">04</div><div class="pt">回看历史</div><div class="px">3-5年一贯表现 > 当下态度 > 一次高光。</div></div><div class="pl"><div class="pn">05</div><div class="pt">划定仓位</div><div class="px">90-100:核心重仓 | 70-89:持有 | 60-69:轻仓 | &lt;60:清仓</div></div></div>'
+  },
+  "pp-score": {
+    title: "财报打分表", parent: "pp",
+    html: '<div class="back-link" onclick="G(\'pp\')">← 返回 识人</div><h1>财报打分表（100分）</h1><div class="pm"><span class="tg">识人</span><span class="tg">决策原则</span></div><table><tr><th>维度</th><th>5分</th><th>3分</th><th>0分</th></tr><tr><td><b>商业模式(25)</b></td><td>求利（正直务实）</td><td>求安（温和）</td><td>求欲（情绪主导）</td></tr><tr><td><b>情绪现金流(25)</b></td><td>鼓励、松弛感</td><td>中性</td><td>负能量爆棚</td></tr><tr><td><b>护城河人品(20)</b></td><td>原则性极强</td><td>大是非不含糊</td><td>不择手段</td></tr><tr><td><b>历史业绩(15)</b></td><td>一贯优秀</td><td>有好有坏</td><td>一贯拉胯</td></tr><tr><td><b>风控(15)</b></td><td>最差也体面</td><td>可忍受</td><td>会毁了你的生活</td></tr></table><div class="hb gd" style="font-style:italic">"如果用这笔感情/时间去投资，回报率是正的吗？" → 正=快乐/成长/心安 | 负=内耗/痛苦/焦虑</div>'
+  },
+
+  iv: {
+    title: "投资", section: "决策原则",
+    html: '<h1>投资决策原则</h1><div class="pm"><span class="tg">价值投资</span><span class="tg">芒格</span><span class="tg">巴菲特</span></div><bq><b>核心规则：投资四问 + 估值三支柱 + 双检核。不懂不投，只用闲钱。</b></bq>',
+    subs: ["iv-four","ev-three","iv-double","iv-market","iv-path"]
+  },
+  "iv-four": {
+    title: "投资四问", parent: "iv",
+    html: '<div class="back-link" onclick="G(\'iv\')">← 返回 投资</div><h1>投资四问</h1><div class="pm"><span class="tg">投资</span><span class="tg">决策原则</span></div><table><tr><th>问题</th><th>本质</th><th>工具</th></tr><tr><td>生意的本质是什么？</td><td>商业模式和护城河</td><td>经济学</td></tr><tr><td>未来5-10年更值钱吗？</td><td>长期确定性</td><td>进化论</td></tr><tr><td>价格有安全边际吗？</td><td>赔率和期望值</td><td>数学概率</td></tr><tr><td>我错了会怎样？</td><td>风险与止损</td><td>反面思考</td></tr></table>'
+  },
+  "ev-three": {
+    title: "估值三支柱", parent: "iv",
+    html: '<div class="back-link" onclick="G(\'iv\')">← 返回 投资</div><h1>估值三支柱</h1><div class="pm"><span class="tg">投资</span><span class="tg">决策原则</span></div><div class="cg"><div class="pl"><div class="pn">质</div><div class="pt">生意质量</div><div class="px">护城河？管理层？品牌/转换成本/网络效应/成本优势</div></div><div class="pl"><div class="pn">量</div><div class="pt">财务质量</div><div class="px">真钱？ROE？自由现金流？负债率？</div></div><div class="pl"><div class="pn">价</div><div class="pt">估值水平</div><div class="px">PE、PB、自由现金流收益率</div></div></div>'
+  },
+  "iv-double": {
+    title: "双检核", parent: "iv",
+    html: '<div class="back-link" onclick="G(\'iv\')">← 返回 投资</div><h1>双检核</h1><div class="pm"><span class="tg">投资</span><span class="tg">决策原则</span></div><table><tr><th>芒格：反面思考</th><th>巴菲特：能力圈</th></tr><tr><td>如果我会亏，最可能因为什么？</td><td>5分钟向10岁小孩解释？</td></tr><tr><td>什么变化会摧毁这家公司？</td><td>不懂不投，没有例外</td></tr></table>'
+  },
+  "iv-market": {
+    title: "市场情绪对照", parent: "iv",
+    html: '<div class="back-link" onclick="G(\'iv\')">← 返回 投资</div><h1>市场情绪对照</h1><div class="pm"><span class="tg">投资</span><span class="tg">决策原则</span></div><table><tr><th>市场状态</th><th>大众情绪</th><th>你的行为</th></tr><tr><td>牛市狂热</td><td>"这次不一样"</td><td>保持清醒，逐步减仓</td></tr><tr><td>熊市恐慌</td><td>"永远涨不回来"</td><td>保持信心，寻找机会</td></tr><tr><td>震荡无聊</td><td>"什么都不值得投"</td><td>耐心等待，持续学习</td></tr></table>'
+  },
+  "iv-path": {
+    title: "学习路径", parent: "iv",
+    html: '<div class="back-link" onclick="G(\'iv\')">← 返回 投资</div><h1>学习路径</h1><div class="pm"><span class="tg">投资</span><span class="tg">决策原则</span></div><table><tr><th>阶段</th><th>目标</th><th>推荐</th></tr><tr><td>入门</td><td>正确金钱观，先学不亏钱</td><td>《小狗钱钱》《指数基金投资指南》</td></tr><tr><td>进阶</td><td>投资本质=投生意</td><td>《一本书读懂财报》《巴菲特的护城河》</td></tr><tr><td>实战</td><td>商业认知落地</td><td>《巴菲特致股东的信》《聪明的投资者》</td></tr><tr><td>高阶</td><td>股权投资本质</td><td>《价值》（张磊）《风险投资史》</td></tr></table>'
+  },
+
+  rl: {
+    title: "关系幸福", section: "决策原则",
+    html: '<h1>关系与幸福原则</h1><div class="pm"><span class="tg">关系</span><span class="tg">幸福</span><span class="tg">爱</span></div><bq><b>核心规则：先修己再爱人，以给予为核心，以尊重为前提。幸福是活成了对的人之后自然而然的馈赠。</b></bq>',
+    subs: ["rl-love","rl-dim","rl-pain","rl-self"]
+  },
+  "rl-love": {
+    title: "爱的三条铁律", parent: "rl",
+    html: '<div class="back-link" onclick="G(\'rl\')">← 返回 关系幸福</div><h1>爱的三条铁律</h1><div class="pm"><span class="tg">关系幸福</span><span class="tg">决策原则</span></div><div class="cg"><div class="pl"><div class="pn">01</div><div class="pt">先修己再爱人</div><div class="px">你给不出你没有的东西。自己没有安全感→只能通过控制获得。</div></div><div class="pl"><div class="pn">02</div><div class="pt">以给予为核心</div><div class="px">不是"你要满足我的期待"，而是"我愿意给你支持与接纳"。</div></div><div class="pl"><div class="pn">03</div><div class="pt">以尊重为前提</div><div class="px">先好奇"他为什么会这么选"。没有尊重的爱=支配与占有。</div></div></div>'
+  },
+  "rl-dim": {
+    title: "幸福的三个维度", parent: "rl",
+    html: '<div class="back-link" onclick="G(\'rl\')">← 返回 关系幸福</div><h1>幸福的三个维度</h1><div class="pm"><span class="tg">关系幸福</span><span class="tg">决策原则</span></div><table><tr><th>维度</th><th>核心</th></tr><tr><td><b>对内：内核稳定</b></td><td>锚点从"外求"转向"内生"。没有内耗=最大幸福。</td></tr><tr><td><b>对外：关系滋养</b></td><td>精准识人避雷，筛选滋养型关系。</td></tr><tr><td><b>对事：持续成长</b></td><td>人生价值随时间复利增长。活在当下。</td></tr></table>'
+  },
+  "rl-pain": {
+    title: "面对痛苦的三步法", parent: "rl",
+    html: '<div class="back-link" onclick="G(\'rl\')">← 返回 关系幸福</div><h1>面对痛苦的三步法</h1><div class="pm"><span class="tg">关系幸福</span><span class="tg">决策原则</span></div><ol><li><b>先接纳，不抗拒</b> — 痛苦是常态</li><li><b>再拆解，不焦虑</b> — 可控的穷尽办法，不可控的彻底接纳</li><li><b>终迭代，不浪费</b> — 把痛苦变成优化操作系统的机会</li></ol><div class="hb">享乐适应：外部事件带来的幸福感半年内回归基线 → 这套体系给你的不是一次性快乐，而是持续创造幸福的能力。</div>'
+  },
+  "rl-self": {
+    title: "自我与他者", parent: "rl",
+    html: '<div class="back-link" onclick="G(\'rl\')">← 返回 关系幸福</div><h1>自我与他者</h1><div class="pm"><span class="tg">关系幸福</span><span class="tg">决策原则</span></div><ol><li>坦然接纳"渴望被看见"的本能</li><li>自我感受第一，他人认可第二</li><li>留一个"无人看见也愿意做的事"作为压舱石</li></ol><bq>地狱不是他人本身，而是你自愿戴上他人凝视的镣铐。</bq>'
+  },
+
+  sm: {
+    title: "自我管理", section: "决策原则",
+    html: '<h1>自我管理原则</h1><div class="pm"><span class="tg">精力管理</span><span class="tg">作息</span></div><bq><b>核心规则：把每日最高质量的纯净精力优先留给自我提升，工作仅保达标不内卷。</b></bq>',
+    subs: ["sm-energy","sm-sleep","sm-schedule","sm-ceo"]
+  },
+  "sm-energy": {
+    title: "精力分配铁律", parent: "sm",
+    html: '<div class="back-link" onclick="G(\'sm\')">← 返回 自我管理</div><h1>精力分配铁律</h1><div class="pm"><span class="tg">自我管理</span><span class="tg">决策原则</span></div><pre>最高质量精力 → 自我提升（学习、运动、思考）\n       ↓\n  中等精力 → 工作（保达标，不追求完美）\n       ↓\n  剩余精力 → 休息放松\n\n⚠ 禁忌：把最高精力给工作，然后"太累了"不学习不运动</pre>'
+  },
+  "sm-sleep": {
+    title: "核心作息", parent: "sm",
+    html: '<div class="back-link" onclick="G(\'sm\')">← 返回 自我管理</div><h1>核心作息</h1><div class="pm"><span class="tg">自我管理</span><span class="tg">决策原则</span></div><div class="hb gd" style="text-align:center;font-size:16px;font-weight:700">入睡 23:00 | 起床 7:00 | 5个完整90分钟周期</div>'
+  },
+  "sm-schedule": {
+    title: "分时段执行表", parent: "sm",
+    html: '<div class="back-link" onclick="G(\'sm\')">← 返回 自我管理</div><h1>分时段执行表</h1><div class="pm"><span class="tg">自我管理</span><span class="tg">决策原则</span></div><table><tr><th>时段</th><th>活动</th></tr><tr><td>7:00-7:15</td><td>起床激活（自然光+温水+拉伸）</td></tr><tr><td><b>7:15-8:00</b></td><td>核心深度学习（全天精力最纯净）</td></tr><tr><td>8:00-8:20</td><td>早餐（高蛋白+慢碳）</td></tr><tr><td>9:00-10:30</td><td>核心工作（保达标）</td></tr><tr><td>10:30-10:45</td><td>摸鱼跳绳</td></tr><tr><td>12:00-13:00</td><td>午餐（7分饱）+午休（≤20分钟）</td></tr><tr><td>14:30-14:45</td><td>第二次跳绳</td></tr><tr><td><b>19:20-20:00</b></td><td>补充运动</td></tr><tr><td><b>20:00-21:30</b></td><td>二次深度学习</td></tr><tr><td>21:30-22:30</td><td>无屏幕放松</td></tr><tr><td>22:30-23:00</td><td>睡眠准备（关电子设备）</td></tr></table>'
+  },
+  "sm-ceo": {
+    title: "人生CEO每日三问", parent: "sm",
+    html: '<div class="back-link" onclick="G(\'sm\')">← 返回 自我管理</div><h1>人生CEO每日三问</h1><div class="pm"><span class="tg">自我管理</span><span class="tg">决策原则</span></div><div class="cg"><div class="pl"><div class="pn">①</div><div class="pt">今天积累资产了吗？</div><div class="px">能力/人脉/健康/知识/钱</div></div><div class="pl"><div class="pn">②</div><div class="pt">今天减少负债了吗？</div><div class="px">内耗/坏关系/坏习惯/风险</div></div><div class="pl"><div class="pn">③</div><div class="pt">精力ROE如何？</div><div class="px">投到高ROE业务还是低价值杂事？</div></div></div>'
+  },
+
+  rv: {
+    title: "迭代机制", section: "复盘迭代",
+    html: '<h1>复盘迭代机制</h1><div class="pm"><span class="tg">复盘</span><span class="tg">达利欧</span></div><bq>"痛苦 + 反思 = 进步" — 达利欧<br>认知体系不是一次性构建的，而是通过持续复盘迭代不断进化。</bq>',
+    subs: ["rv-rhythm","rv-compare","rv-signal"]
+  },
+  "rv-rhythm": {
+    title: "四级迭代节奏", parent: "rv",
+    html: '<div class="back-link" onclick="G(\'rv\')">← 返回 迭代机制</div><h1>四级迭代节奏</h1><div class="pm"><span class="tg">复盘迭代</span></div><table><tr><th>节奏</th><th>时机</th><th>核心动作</th></tr><tr><td><b>日复盘</b></td><td>每晚22:30（10分钟）</td><td>觉察被带跑、挖动机、下次怎么拦</td></tr><tr><td><b>周检视</b></td><td>每周日晚（30分钟）</td><td>精力ROE、资产负债表更新、原则校准</td></tr><tr><td><b>季度更新</b></td><td>每季末（2小时）</td><td>体系升级、淘汰无效原则、新增新原则</td></tr><tr><td><b>年度总结</b></td><td>每年末（半天）</td><td>方向校准、核心命题复核</td></tr></table>'
+  },
+  "rv-compare": {
+    title: "好的复盘 vs 坏的复盘", parent: "rv",
+    html: '<div class="back-link" onclick="G(\'rv\')">← 返回 迭代机制</div><h1>好的复盘 vs 坏的复盘</h1><div class="pm"><span class="tg">复盘迭代</span></div><table><tr><th>坏的</th><th>好的</th></tr><tr><td>罗列事件</td><td>挖到底层动机和模型失效原因</td></tr><tr><td>"要更努力"</td><td>"下次遇到X情况，我按Y原则行动"</td></tr><tr><td>只复盘失败</td><td>也复盘成功（哪个模型奏效了？）</td></tr><tr><td>复盘但不更新体系</td><td>每次都有具体的体系更新动作</td></tr></table>'
+  },
+  "rv-signal": {
+    title: "体系进化信号", parent: "rv",
+    html: '<div class="back-link" onclick="G(\'rv\')">← 返回 迭代机制</div><h1>体系进化信号</h1><div class="pm"><span class="tg">复盘迭代</span></div><ul><li>遇到新情况，现有原则无法覆盖 → 添加新原则</li><li>某条原则反复无效 → 淘汰或修改</li><li>对某个概念有更深的理解 → 更新笔记</li><li>同样错误超过3次 → 原则没内化，换方式训练</li></ul>'
+  },
+
+  tp: {
+    title: "每日模板", section: "复盘迭代",
+    html: '<h1>每日复盘模板</h1><div class="pm"><span class="tg">模板</span><span class="tg">每日</span></div><bq>每天晚上22:30-23:00用10分钟完成。</bq><h2>今日复盘</h2><div class="hb"><p><b>日期：</b>YYYY-MM-DD</p><br><p><b>1. 今天我哪一次被情绪/外界带跑了？</b></p><p style="color:var(--t3);font-size:13px">（具体事件，一句话描述）</p><br><p><b>2. 当时我的真实动机是什么？</b></p><p style="color:var(--t3);font-size:13px">（求认可？怕失去？焦虑？嫉妒？）</p><br><p><b>3. 下次用哪条原则/模型可以提前拦住自己？</b></p><p style="color:var(--t3);font-size:13px">（具体到某条决策原则或思维模型）</p></div><h2>人生CEO日检</h2><div class="hb gn"><p><b>今天积累的资产：</b></p><p style="color:var(--t3);font-size:13px">（能力/知识/健康/人脉/钱）</p><br><p><b>今天减少的负债：</b></p><p style="color:var(--t3);font-size:13px">（内耗/坏习惯/无效社交）</p><br><p><b>精力ROE评估（1-5分）：</b></p><p style="color:var(--t3);font-size:13px">1=精力全浪费 | 5=最高质量精力全部用于自我提升</p></div><h2>明日重点</h2><div class="hb"><ol><li style="color:var(--t3)">（重点1）</li><li style="color:var(--t3)">（重点2）</li><li style="color:var(--t3)">（重点3）</li></ol></div>'
+  }
+};
+
+// ===== SECTION TREE (for sidebar grouping) =====
+var TREE = [
+  { name: "总览", items: ["home"] },
+  { name: "底层操作系统", items: ["wv","mc","pr","sf"] },
+  { name: "思维模型栅格", items: ["ps","ma","ec","bi","acc","ph","hi"] },
+  { name: "决策原则", items: ["ht","pp","iv","rl","sm"] },
+  { name: "复盘迭代", items: ["rv","tp"] }
+];
+
+var curId = "home";
+
+// ===== INIT: build sidebar =====
+function buildNav() {
+  var nv = document.getElementById("nv");
+  var html = "";
+  TREE.forEach(function(sec) {
+    html += '<div class="ns" data-sec="' + sec.name + '">';
+    html += '<div class="nh" onclick="toggleSec(this)"><span class="ar">▾</span>' + sec.name + '</div>';
+    sec.items.forEach(function(id) {
+      var d = D[id];
+      if (!d) return;
+      html += '<div class="ni" data-id="' + id + '" onclick="G(\'' + id + '\',this)">' + d.title + '</div>';
+      // Sub-items (3rd level)
+      if (d.subs) {
+        d.subs.forEach(function(sid) {
+          var sd = D[sid];
+          if (!sd) return;
+          html += '<div class="ni-sub" data-id="' + sid + '" data-parent="' + id + '" onclick="G(\'' + sid + '\',this)" style="display:none">' + sd.title + '</div>';
+        });
+      }
+    });
+    html += '</div>';
+  });
+  nv.innerHTML = html;
+}
+
+// ===== TOGGLE SECTION =====
+function toggleSec(el) {
+  var ns = el.parentElement;
+  ns.classList.toggle("c");
+}
+
+// ===== SHOW SUBS for active parent =====
+function showSubs(parentId) {
+  // Hide all subs first
+  document.querySelectorAll(".ni-sub").forEach(function(el) { el.style.display = "none"; });
+  if (!parentId) return;
+  var d = D[parentId];
+  if (!d || !d.subs) return;
+  d.subs.forEach(function(sid) {
+    var el = document.querySelector('.ni-sub[data-id="' + sid + '"]');
+    if (el) el.style.display = "";
+  });
+}
+
+// ===== GO TO PAGE =====
+function G(id, el) {
+  // Hide search results
+  document.getElementById("sr").classList.remove("show");
+
+  var d = D[id];
+  if (!d) return;
+
+  // Determine parent page for breadcrumb
+  var parentId = d.parent || null;
+  var parentTitle = parentId ? D[parentId].title : "";
+
+  // Build breadcrumb
+  var breadcrumb = "";
+  if (d.section) breadcrumb = d.section;
+  if (parentId && parentTitle) {
+    breadcrumb = (breadcrumb ? breadcrumb + " › " : "") + parentTitle;
+  }
+  breadcrumb += (breadcrumb ? " › " : "") + d.title;
+  document.getElementById("tp").textContent = breadcrumb;
+
+  // Render page content
+  var ct = document.getElementById("ct");
+  ct.scrollTop = 0;
+
+  // If page has subs, render as index page with clickable section cards
+  var html = d.html;
+  if (d.subs && d.subs.length > 0) {
+    html += '<h2>子章节</h2><div class="cg">';
+    d.subs.forEach(function(sid) {
+      var sd = D[sid];
+      if (!sd) return;
+      // Extract first text snippet for description
+      var text = sd.html.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim().substring(0, 60);
+      html += '<div class="cd" onclick="G(\'' + sid + '\')"><div class="ct">' + sd.title + '</div><div class="cx">' + text + '…</div></div>';
+    });
+    html += '</div>';
+  }
+
+  ct.innerHTML = '<div class="pg ac">' + html + '</div>';
+
+  // Update sidebar active state
+  document.querySelectorAll(".ni,.ni-sub").forEach(function(n) { n.classList.remove("ac"); });
+  if (el) {
+    el.classList.add("ac");
+  } else {
+    var navEl = document.querySelector('[data-id="' + id + '"]');
+    if (navEl) navEl.classList.add("ac");
+  }
+
+  // Show sub-nav items for the parent
+  showSubs(parentId);
+
+  // If this page has subs, show them too (when viewing the parent)
+  if (!parentId && d.subs) {
+    showSubs(id);
+  }
+
+  curId = id;
+}
+
+// ===== GLOBAL SEARCH =====
+function S(q) {
+  var sr = document.getElementById("sr");
+  q = q.trim().toLowerCase();
+
+  if (!q) {
+    sr.classList.remove("show");
+    return;
+  }
+
+  // Build search index: scan all pages' html content
+  var results = [];
+  Object.keys(D).forEach(function(id) {
+    var d = D[id];
+    // Skip pages that are just parent indexes with subs (search subs instead)
+    var text = d.html.replace(/<[^>]+>/g, " ").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&amp;/g,"&").replace(/\s+/g, " ").trim();
+
+    var idx = text.toLowerCase().indexOf(q);
+    if (idx === -1) return;
+
+    // Extract context around match
+    var start = Math.max(0, idx - 20);
+    var end = Math.min(text.length, idx + q.length + 40);
+    var snippet = (start > 0 ? "…" : "") + text.substring(start, end) + (end < text.length ? "…" : "");
+
+    // Determine breadcrumb
+    var bc = "";
+    if (d.section) bc = d.section;
+    if (d.parent && D[d.parent]) bc += (bc ? " › " : "") + D[d.parent].title;
+    bc += (bc ? " › " : "") + d.title;
+
+    results.push({
+      id: id,
+      title: d.title,
+      breadcrumb: bc,
+      snippet: snippet,
+      match: q
+    });
+  });
+
+  // Render results
+  if (results.length === 0) {
+    sr.innerHTML = '<div style="padding:20px;text-align:center;color:var(--t3);font-size:13px">未找到匹配内容</div>';
+  } else {
+    var html = "";
+    results.forEach(function(r) {
+      // Highlight match
+      var re = new RegExp("(" + q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "gi");
+      var hl = r.snippet.replace(re, "<mark>$1</mark>");
+      html += '<div class="sri" onclick="G(\'' + r.id + '\');document.getElementById(\'sb\').value=\'\';document.getElementById(\'sr\').classList.remove(\'show\')">';
+      html += '<div class="sri-t">' + r.title + '</div>';
+      html += '<div class="sri-p">' + r.breadcrumb + '</div>';
+      html += '<div class="sri-c">' + hl + '</div>';
+      html += '</div>';
+    });
+    sr.innerHTML = html;
+  }
+  sr.classList.add("show");
+}
+
+// Close search on click outside
+document.addEventListener("click", function(e) {
+  var sr = document.getElementById("sr");
+  var sb = document.getElementById("sb");
+  if (!sr.contains(e.target) && e.target !== sb) {
+    sr.classList.remove("show");
+  }
+});
+
+// ===== INIT =====
+buildNav();
+G("home");
 </script>
 </body>
 </html>
