@@ -4,55 +4,343 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>个人认知体系 · 决策操作系统 v1.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f1117;--bg2:#161b27;--bg3:#1e2536;--bd:#2a3347;--t:#e2e8f0;--t2:#94a3b8;--t3:#64748b;--a:#3b82f6;--g:#f59e0b;--gn:#10b981}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--t);display:flex;height:100vh;overflow:hidden;font-size:15px;line-height:1.7}
-#sd{width:280px;background:var(--bg2);border-right:1px solid var(--bd);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
-.hd{padding:20px 16px 14px;border-bottom:1px solid var(--bd)}
-.hd h2{font-size:13px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:1px}
-.hd small{font-size:11px;color:var(--t3)}
-#sb{margin:10px 12px;padding:7px 12px;background:var(--bg3);border:1px solid var(--bd);border-radius:6px;color:var(--t);font-size:13px;width:calc(100% - 24px);outline:none}
-#sb:focus{border-color:var(--a)}
-#nv{flex:1;overflow-y:auto;padding:6px 0 16px}
-#nv::-webkit-scrollbar{width:4px}#nv::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px}
-.ns{margin-top:4px}
-.nh{padding:6px 16px 4px;font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;cursor:pointer;user-select:none;display:flex;align-items:center;gap:6px}
-.nh:hover{color:var(--t2)}.nh .ar{font-size:9px;transition:transform .2s}
-.ns.c .ar{transform:rotate(-90deg)}.ns.c .ni{display:none}
-.ni{padding:5px 16px 5px 28px;font-size:13px;color:var(--t2);cursor:pointer;border-left:2px solid transparent;transition:all .15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ni:hover{color:var(--t);background:var(--bg3)}
-.ni.ac{color:var(--a);background:rgba(59,130,246,.08);border-left-color:var(--a);font-weight:600}
-#mn{flex:1;display:flex;flex-direction:column;overflow:hidden}
-#tp{padding:10px 24px;border-bottom:1px solid var(--bd);background:var(--bg2);font-size:13px;color:var(--t3);flex-shrink:0}
-#ct{flex:1;overflow-y:auto;padding:36px 48px;max-width:860px}
-#ct::-webkit-scrollbar{width:6px}#ct::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px}
-.pg{display:none}.pg.ac{display:block}
-h1{font-size:26px;font-weight:700;color:var(--t);margin-bottom:6px;line-height:1.3}
-.pm{color:var(--t3);font-size:12px;margin-bottom:24px;display:flex;gap:8px;flex-wrap:wrap}
-.tg{background:var(--bg3);border:1px solid var(--bd);padding:2px 8px;border-radius:20px;font-size:11px;color:var(--t3)}
-h2{font-size:18px;font-weight:700;color:var(--t);margin:28px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--bd)}
-h3{font-size:15px;font-weight:700;color:var(--t);margin:20px 0 8px}
-p{color:var(--t2);margin-bottom:12px}
-bq{display:block;border-left:3px solid var(--a);padding:10px 16px;margin:14px 0;background:rgba(59,130,246,.05);border-radius:0 6px 6px 0;color:var(--t2);font-style:italic}
-pre{background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:16px;font-family:"SF Mono","Fira Code",Consolas,monospace;font-size:13px;color:#a8b5cf;overflow-x:auto;margin:14px 0;white-space:pre;line-height:1.8}
-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
-th{background:var(--bg3);padding:8px 12px;text-align:left;color:var(--t2);font-weight:700;border:1px solid var(--bd);font-size:12px}
-td{padding:8px 12px;border:1px solid var(--bd);color:var(--t2);vertical-align:top}
-tr:nth-child(even) td{background:rgba(255,255,255,.02)}
-ul,ol{padding-left:22px;color:var(--t2);margin:10px 0}li{margin:4px 0}hr{border:none;border-top:1px solid var(--bd);margin:24px 0}
-.cg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
-.cd{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:14px;cursor:pointer;transition:border-color .2s,transform .2s}
-.cd:hover{border-color:var(--a);transform:translateY(-2px)}
-.ct{font-weight:700;color:var(--t);margin-bottom:4px;font-size:14px}.cx{font-size:12px;color:var(--t3);line-height:1.5}
-.pl{background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:14px}
-.pn{font-size:20px;font-weight:900;color:var(--a);margin-bottom:4px}.pt{font-weight:700;color:var(--t);font-size:14px}
-.px{font-size:12px;color:var(--t3);margin-top:6px}
-.hb{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.25);border-radius:8px;padding:14px 18px;margin:14px 0;color:var(--t2)}
-.hb.gd{background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.25)}
-.hb.gn{background:rgba(16,185,129,.06);border-color:rgba(16,185,129,.25)}
-strong{color:var(--t)}
-@media(max-width:768px){#sd{width:240px;position:absolute;z-index:100;height:100%;left:-240px;transition:left .3s}#sd.open{left:0}#ct{padding:24px 20px}.cg{grid-template-columns:1fr}}
+:root {
+  --bg: #ffffff;
+  --bg2: #f8f8f8;
+  --bg3: #f2f2f2;
+  --bd: #e8e8e8;
+  --t: #3d3229;
+  --t2: #6b5d4f;
+  --t3: #9e8e7e;
+  --a: #c0713a;
+  --ag: rgba(192,113,58,0.06);
+  --agb: rgba(192,113,58,0.22);
+  --g: #b8860b;
+  --gg: rgba(184,134,11,0.06);
+  --ggb: rgba(184,134,11,0.20);
+  --gn: #5a8a5e;
+  --gng: rgba(90,138,94,0.06);
+  --gngb: rgba(90,138,94,0.20);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.10);
+  --radius: 12px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Serif SC', -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", serif;
+  background: var(--bg);
+  color: var(--t);
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* ===== SIDEBAR ===== */
+#sd {
+  width: 290px;
+  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+  border-right: 1px solid var(--bd);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.hd {
+  padding: 28px 20px 20px;
+  border-bottom: 1px solid var(--bd);
+  background: linear-gradient(135deg, rgba(192,113,58,0.06) 0%, transparent 60%);
+}
+.hd h2 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--t);
+  letter-spacing: 0.5px;
+}
+.hd small {
+  font-size: 11px;
+  color: var(--t3);
+  display: block;
+  margin-top: 2px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+#sb {
+  margin: 12px 14px;
+  padding: 9px 14px;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid var(--bd);
+  border-radius: 8px;
+  color: var(--t);
+  font-size: 13px;
+  width: calc(100% - 28px);
+  outline: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition: border-color .2s, box-shadow .2s;
+}
+#sb:focus {
+  border-color: var(--a);
+  box-shadow: 0 0 0 3px var(--ag);
+}
+#sb::placeholder { color: var(--t3); }
+#nv { flex: 1; overflow-y: auto; padding: 8px 0 20px; }
+#nv::-webkit-scrollbar { width: 4px; }
+#nv::-webkit-scrollbar-thumb { background: var(--bd); border-radius: 4px; }
+.ns { margin-top: 2px; }
+.nh {
+  padding: 8px 16px 5px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--t3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition: color .15s;
+}
+.nh:hover { color: var(--a); }
+.nh .ar { font-size: 9px; transition: transform .2s; }
+.ns.c .ar { transform: rotate(-90deg); }
+.ns.c .ni { display: none; }
+.ni {
+  padding: 6px 16px 6px 30px;
+  font-size: 13.5px;
+  color: var(--t2);
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: all .15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 0 6px 6px 0;
+  margin: 1px 8px 1px 0;
+}
+.ni:hover { color: var(--a); background: var(--ag); }
+.ni.ac {
+  color: var(--a);
+  background: var(--ag);
+  border-left-color: var(--a);
+  font-weight: 600;
+}
+
+/* ===== MAIN CONTENT ===== */
+#mn { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+#tp {
+  padding: 12px 32px;
+  border-bottom: 1px solid var(--bd);
+  background: linear-gradient(90deg, rgba(192,113,58,0.04) 0%, transparent 100%);
+  font-size: 13px;
+  color: var(--t3);
+  flex-shrink: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0.3px;
+}
+#ct {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px 52px;
+  max-width: 880px;
+  scroll-behavior: smooth;
+}
+#ct::-webkit-scrollbar { width: 6px; }
+#ct::-webkit-scrollbar-thumb { background: var(--bd); border-radius: 4px; }
+
+/* ===== PAGES ===== */
+.pg { display: none; }
+.pg.ac { display: block; animation: fadeIn .25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== TYPOGRAPHY ===== */
+h1 {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--t);
+  margin-bottom: 8px;
+  line-height: 1.35;
+  letter-spacing: -0.3px;
+}
+.pm {
+  color: var(--t3);
+  font-size: 12px;
+  margin-bottom: 28px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.tg {
+  background: var(--bg3);
+  border: 1px solid var(--bd);
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  color: var(--t3);
+}
+h2 {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--t);
+  margin: 32px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--bg3);
+  position: relative;
+}
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: var(--a);
+  border-radius: 1px;
+}
+h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--t);
+  margin: 22px 0 10px;
+}
+p { color: var(--t2); margin-bottom: 14px; }
+bq {
+  display: block;
+  border-left: 3px solid var(--a);
+  padding: 14px 20px;
+  margin: 16px 0;
+  background: linear-gradient(90deg, var(--ag), transparent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--t2);
+  font-style: italic;
+  line-height: 1.85;
+}
+pre {
+  background: var(--bg2);
+  border: 1px solid var(--bd);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  font-family: "SF Mono", "Fira Code", Consolas, "Courier New", monospace;
+  font-size: 13px;
+  color: var(--t2);
+  overflow-x: auto;
+  margin: 16px 0;
+  white-space: pre;
+  line-height: 1.9;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ===== TABLES ===== */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 16px 0;
+  font-size: 13px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--bd);
+  box-shadow: var(--shadow-sm);
+}
+th {
+  background: var(--bg3);
+  padding: 10px 14px;
+  text-align: left;
+  color: var(--t);
+  font-weight: 700;
+  border-bottom: 2px solid var(--bd);
+  font-size: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0.3px;
+}
+td {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  color: var(--t2);
+  vertical-align: top;
+}
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: rgba(0,0,0,0.02); }
+
+/* ===== LISTS ===== */
+ul, ol { padding-left: 24px; color: var(--t2); margin: 12px 0; }
+li { margin: 5px 0; line-height: 1.85; }
+hr { border: none; border-top: 1px solid var(--bd); margin: 28px 0; }
+
+/* ===== CARD GRIDS ===== */
+.cg { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
+.cd {
+  background: #ffffff;
+  border: 1px solid var(--bd);
+  border-radius: var(--radius);
+  padding: 18px;
+  cursor: pointer;
+  transition: all .2s;
+  box-shadow: var(--shadow-sm);
+}
+.cd:hover {
+  border-color: var(--a);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+.ct { font-weight: 700; color: var(--t); margin-bottom: 6px; font-size: 14px; }
+.cx { font-size: 12.5px; color: var(--t3); line-height: 1.6; }
+
+/* ===== PILL CARDS ===== */
+.pl {
+  background: #ffffff;
+  border: 1px solid var(--bd);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color .2s;
+}
+.pl:hover { border-color: var(--agb); }
+.pn { font-size: 22px; font-weight: 900; color: var(--a); margin-bottom: 6px; }
+.pt { font-weight: 700; color: var(--t); font-size: 14px; margin-bottom: 4px; }
+.px { font-size: 12.5px; color: var(--t3); margin-top: 8px; line-height: 1.65; }
+
+/* ===== HIGHLIGHT BOXES ===== */
+.hb {
+  background: linear-gradient(90deg, var(--ag), rgba(192,113,58,0.02));
+  border: 1px solid var(--agb);
+  border-radius: var(--radius);
+  padding: 16px 22px;
+  margin: 16px 0;
+  color: var(--t2);
+  box-shadow: var(--shadow-sm);
+}
+.hb.gd {
+  background: linear-gradient(90deg, var(--gg), rgba(184,134,11,0.02));
+  border-color: var(--ggb);
+}
+.hb.gn {
+  background: linear-gradient(90deg, var(--gng), rgba(90,138,94,0.02));
+  border-color: var(--gngb);
+}
+strong { color: var(--t); }
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  #sd {
+    width: 260px;
+    position: absolute;
+    z-index: 100;
+    height: 100%;
+    left: -260px;
+    transition: left .3s;
+    box-shadow: none;
+  }
+  #sd.open { left: 0; box-shadow: var(--shadow-lg); }
+  #ct { padding: 24px 20px; }
+  .cg { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -61,11 +349,9 @@ strong{color:var(--t)}
   <input id="sb" type="text" placeholder="搜索笔记…" oninput="S(this.value)">
   <nav id="nv"><div class="ns"><div class="nh" onclick="T(this)"><span class="ar">▾</span>总览</div><div class="ni">
 <div class="ni ac" onclick="G('home',this)">🗺️ 总索引</div>
-<div class="ni" onclick="G('thesis',this)">⭐ 终极命题</div>
 </div></div>
 <div class="ns"><div class="nh" onclick="T(this)"><span class="ar">▾</span>底层操作系统</div><div class="ni">
 <div class="ni" onclick="G('wv',this)">🌍 三观</div>
-<div class="ni" onclick="G('aw',this)">👁️ 思维觉察</div>
 <div class="ni" onclick="G('mc',this)">🔬 元认知</div>
 <div class="ni" onclick="G('pr',this)">⚖️ 实用主义</div>
 <div class="ni" onclick="G('sf',this)">🪞 与自己周旋</div>
@@ -99,12 +385,9 @@ strong{color:var(--t)}
 <div class="pm"><span class="tg">决策操作系统</span><span class="tg">芒格</span><span class="tg">纳瓦尔</span><span class="tg">达利欧</span></div>
 <bq>这不是"我知道什么"的清单，而是"遇到问题时我该怎么想、怎么判断、怎么行动"的决策操作系统。参考芒格的跨学科思维模型栅格 + 达利欧的原则层级 + 纳瓦尔的极简三元命题（健康·财富·幸福）。</bq>
 <h2>体系全景</h2>
-<pre>终极命题：健康 · 财富 · 幸福
-    │
-    ▼
-┌──────────────────────────────────────────┐
+<pre>┌──────────────────────────────────────────┐
 │  第一层：底层操作系统                      │
-│  → 三观 · 元认知 · 思维觉察 · 实用主义     │
+│  → 三观 · 元认知 · 实用主义               │
 ├──────────────────────────────────────────┤
 │  第二层：思维模型栅格（7大学科）            │
 │  → 心理学·数学概率·经济学·生物学           │
@@ -124,48 +407,12 @@ strong{color:var(--t)}
 <div class="hb gd" style="font-size:16px;font-weight:700;text-align:center;letter-spacing:1px">遇事先觉察，看人看模式，决策看长期，不懂不参与，失控先暂停，健康是第一。</div>
 <h2>快速导航</h2>
 <div class="cg">
-<div class="cd" onclick="G('thesis')"><div class="ct">⭐ 终极命题：健康·财富·幸福</div><div class="cx">所有模型的最终出口</div></div>
 <div class="cd" onclick="G('wv')"><div class="ct">🌍 三观：底层信念系统</div><div class="cx">所有思考的总地图</div></div>
 <div class="cd" onclick="G('ht')"><div class="ct">💪 健康决策原则</div><div class="cx">运动·睡眠·饮食·精力管理</div></div>
 <div class="cd" onclick="G('iv')"><div class="ct">📈 投资决策原则</div><div class="cx">四问+三支柱+双检核</div></div>
 <div class="cd" onclick="G('pp')"><div class="ct">👤 识人决策原则</div><div class="cx">人=终身上市公司，6维打分</div></div>
 <div class="cd" onclick="G('rv')"><div class="ct">🔄 复盘迭代机制</div><div class="cx">日/周/季/年四级迭代</div></div>
 </div>
-</div>
-<div class="pg" id="p-thesis">
-<h1>终极命题：健康 · 财富 · 幸福</h1>
-<div class="pm"><span class="tg">核心命题</span><span class="tg">纳瓦尔</span><span class="tg">芒格</span></div>
-<bq>纳瓦尔：人生的核心命题，拆到最底层，就是健康、财富和幸福。<br>芒格：如果你不照顾好自己的身体，其他一切都毫无意义。</bq>
-<div class="hb gd" style="text-align:center;font-size:17px;font-weight:700">🏥 健康是 1 | 💰 财富是 0 | 😊 幸福是 0<br><span style="font-size:13px;font-weight:400;color:var(--t3)">1 没有了，一切都归零</span></div>
-<h2>为什么是这三个？</h2>
-<table><tr><th>命题</th><th>本质</th><th>核心问题</th></tr>
-<tr><td><b>💪 健康</b></td><td>一切的基础，复利的载体</td><td>我是否在维护"终身经营机器"？</td></tr>
-<tr><td><b>💰 财富</b></td><td>睡觉时也在赚钱的资产</td><td>如何不牺牲自由地获得经济独立？</td></tr>
-<tr><td><b>😊 幸福</b></td><td>内生的安宁感</td><td>如何在周期波动中保持内核稳定？</td></tr></table>
-<h2>健康的核心判断</h2>
-<ol><li><b>健康是一切的基础</b> — 没有健康，财富和幸福都无从谈起</li>
-<li><b>健康是最重要的复利资产</b> — 每天运动30分钟，复利30年是质的飞跃</li>
-<li><b>精力管理 > 时间管理</b> — 有精力才有高质量的思考、决策</li>
-<li><b>身体是"终身经营机器"</b> — 你就是CEO</li>
-<li><b>预防 > 治疗</b> — "避免早死"是最重要的投资决策之一</li></ol>
-<h2>财富的核心判断</h2>
-<ol><li><b>追求财富，而非金钱或地位</b> — 金钱是工具，地位是零和</li>
-<li><b>财富 = 杠杆 × 特长 × 判断力</b></li>
-<li><b>复利是最强大的力量</b> — 能力、声誉、关系的复利</li>
-<li><b>不懂不投，只用闲钱</b></li>
-<li><b>个人是一家"终身上市公司"</b></li></ol>
-<h2>幸福的核心判断</h2>
-<ol><li><b>幸福是可习得的技能</b> — 像健身一样需持续练习</li>
-<li><b>幸福 = 内生锚点 - 欲望噪音</b></li>
-<li><b>内核稳定是最硬的通货</b></li>
-<li><b>痛苦是正常周期波动</b></li>
-<li><b>先修己，再爱人</b></li></ol>
-<h2>三线交叉检验</h2>
-<table><tr><th>维度</th><th>核心问题</th></tr>
-<tr><td>💪 健康线</td><td>运动量达标？作息规律？精力如何？</td></tr>
-<tr><td>💰 财富线</td><td>资产睡觉时能带来收入吗？护城河在变宽吗？</td></tr>
-<tr><td>😊 幸福线</td><td>安宁感是内生的还是依附外界的？</td></tr>
-<tr><td>🔄 交叉</td><td>为财富牺牲了多少健康和幸福？</td></tr></table>
 </div>
 <div class="pg" id="p-wv">
 <h1>三观：底层信念系统</h1>
@@ -190,29 +437,6 @@ strong{color:var(--t)}
 <tr><td>世界观</td><td>对市场的底层认知</td><td>世界有没有不变的底层规则？</td></tr>
 <tr><td>人生观</td><td>公司的使命与长期战略</td><td>我的人生终极目标是什么？</td></tr>
 <tr><td>价值观</td><td>核心经营准则与风控红线</td><td>什么钱不能赚？什么底线不能破？</td></tr></table>
-</div>
-<div class="pg" id="p-aw">
-<h1>思维觉察</h1>
-<div class="pm"><span class="tg">觉察</span><span class="tg">正念</span></div>
-<bq>对思维的觉察 = 跳出思维本身，以第三方观察者的视角，看着念头和情绪运作，但不被它带走。是整个认知体系的<b>底层前提</b>。</bq>
-<h2>你是观众，不是剧中人</h2>
-<table><tr><th>维度</th><th>元认知</th><th>思维觉察</th></tr>
-<tr><td>层级</td><td>对认知的认知，仍在思维层面</td><td>跳出思维框架，看着思维运作</td></tr>
-<tr><td>方式</td><td>主动监控、评估、调节</td><td>非评判、非干预的纯粹觉知</td></tr></table>
-<h2>四个核心特征</h2>
-<ol><li><b>你是观察者</b> — 念头和情绪还在，但你和它之间有了一道距离</li>
-<li><b>非评判的纯粹觉知</b> — 像看天上的云飘来飘去</li>
-<li><b>当下实时觉知</b> — 在念头升起的瞬间就同步看见</li>
-<li><b>不干预不控制</b> — 你就是湖面，念头就是波纹</li></ol>
-<h2>什么时候用？</h2>
-<table><tr><th>触发场景</th><th>行动</th></tr>
-<tr><td>强烈情绪升起时</td><td>3次深呼吸（吸4屏2呼6），问：我在感受什么？</td></tr>
-<tr><td>做重大决策前</td><td>我带着什么预设？我被什么情绪影响了？</td></tr>
-<tr><td>日常碎片时间</td><td>绑定日常动作，暂停1秒感受呼吸</td></tr></table>
-<h2>三阶练习</h2>
-<div class="cg"><div class="pl"><div class="pn">01</div><div class="pt">锚定</div><div class="px">每天5-10分钟呼吸冥想。每次"发现走神"的瞬间=一次完整觉察。</div></div>
-<div class="pl"><div class="pn">02</div><div class="pt">带入生活</div><div class="px">情绪触发暂停键：3次深呼吸→给情绪命名→说出核心念头。</div></div>
-<div class="pl"><div class="pn">03</div><div class="pt">变成本能</div><div class="px">碎片化锚定。思考前过3问。睡前无评判复盘。</div></div></div>
 </div>
 <div class="pg" id="p-mc">
 <h1>元认知训练</h1>
@@ -290,7 +514,7 @@ strong{color:var(--t)}
     ↑
  安全需求（关系稳定基石）
     ↑
- 生理需求（最低存续门槛）</pre>
+  生理需求（最低存续门槛）</pre>
 <h2>爱的艺术</h2>
 <table><tr><th>不成熟的爱</th><th>成熟的爱</th></tr>
 <tr><td>"我爱你，因为我需要你"（索取型）</td><td>"我需要你，因为我爱你"（给予型）</td></tr></table>
@@ -586,7 +810,7 @@ strong{color:var(--t)}
 </div>
 </div>
 <script>
-var B={home:"🗺️ 总索引",thesis:"⭐ 终极命题",wv:"🌍 三观",aw:"👁️ 思维觉察",mc:"🔬 元认知",pr:"⚖️ 实用主义",sf:"🪞 与自己周旋",ps:"🧠 心理学",ma:"📊 数学概率",ec:"🏭 经济学",bi:"🧬 生物学",acc:"📋 会计学",ph:"💡 哲学逻辑",hi:"📜 历史社会",ht:"💪 健康",pp:"👤 识人",iv:"📈 投资",rl:"❤️ 关系幸福",sm:"⏰ 自我管理",rv:"🔄 迭代机制",tp:"📝 每日模板"};
+var B={home:"🗺️ 总索引",wv:"🌍 三观",mc:"🔬 元认知",pr:"⚖️ 实用主义",sf:"🪞 与自己周旋",ps:"🧠 心理学",ma:"📊 数学概率",ec:"🏭 经济学",bi:"🧬 生物学",acc:"📋 会计学",ph:"💡 哲学逻辑",hi:"📜 历史社会",ht:"💪 健康",pp:"👤 识人",iv:"📈 投资",rl:"❤️ 关系幸福",sm:"⏰ 自我管理",rv:"🔄 迭代机制",tp:"📝 每日模板"};
 var A=null;
 function G(id,el){document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('ac')});
 document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('ac')});
